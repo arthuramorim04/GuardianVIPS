@@ -7,6 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class GuardianVips extends JavaPlugin {
 
     private YamlConfig yamlConfig;
+    private YamlConfig yamlVipConfig;
     private DatabaseManager databaseManager;
 
     @Override
@@ -26,6 +27,7 @@ public class GuardianVips extends JavaPlugin {
 
     private void initConfig() {
         yamlConfig = new YamlConfig(this,"config");
+        yamlVipConfig = new YamlConfig(this, "vips");
     }
 
     private void initDatabase() {

@@ -3,8 +3,8 @@ messages:
   vipRemoved: "seu vip %vip% foi removido por um staff"
 
 storage:
-  user: 'u1030_bw4bmA3Qjq'
-  pass: '+j8FAaC+9Q+=HixiA8Ek^lyl'
-  host: '192.99.100.105'
-  db: 's1030_dbdunkin'
+  user: 'mysql'
+  pass: '123'
+  host: 'localhost'
+  db: 'plugins'
   port: 3306
