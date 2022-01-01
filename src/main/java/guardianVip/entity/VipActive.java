@@ -1,13 +1,17 @@
-package entity;
+package guardianVip.entity;
+
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+@AllArgsConstructor
+@NoArgsConstructor
 public class VipActive {
 
     private Vip vip;
     private LocalDateTime activationDate;
     private LocalDateTime expiredAt;
-    private Integer days;
 
     public Vip getVip() {
         return vip;
@@ -33,11 +37,4 @@ public class VipActive {
         this.expiredAt = expiredAt;
     }
 
-    public Integer getDays() {
-        return days;
-    }
-
-    public void setDays(Integer days) {
-        this.days = days;
-    }
 }

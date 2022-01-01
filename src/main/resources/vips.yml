@@ -1,0 +1,25 @@
+1:
+  name: "Vip 1"
+  commandsActivationVip:
+    - "pex user %player% group add vip1"
+    - "money add %player 1000"
+  commandsRemovelVip:
+    - "pex user %player% group remove vip1"
+  activationBroadcast: "O jogador %player% \n Ativou o vip Vip 1"
+  rareCommandsToExecute:
+    percent: 10
+    commands:
+      - "playerpoints add %player% 100"
+
+2:
+  name: "Vip 1"
+  commandsActivationVip:
+    - "pex user %player% group add vip1"
+    - "money add %player 1000"
+  commandsRemovelVip:
+    - "pex user %player% group remove vip1"
+  activationBroadcast: "O jogador %player% \n Ativou o vip Vip 1"
+  rareCommandsToExecute:
+    percent: 10
+    commands:
+      - "playerpoints add %player% 100"

@@ -1,8 +1,13 @@
-package entity;
+package guardianVip.entity;
+
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.UUID;
 
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserVip {
 
     private String name;

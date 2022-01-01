@@ -1,7 +1,12 @@
-package entity;
+package guardianVip.entity;
+
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@AllArgsConstructor
+@NoArgsConstructor
 public class Vip {
 
     private String name;

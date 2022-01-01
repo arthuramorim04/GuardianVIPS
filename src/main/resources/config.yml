@@ -2,16 +2,9 @@ messages:
   vipExpired: "seu vip %vip% expirou, acesso nossa loja e compre mais dias."
   vipRemoved: "seu vip %vip% foi removido por um staff"
 
-Vips:
-  1:
-    name: "Vip 1"
-    commandsActivationVip:
-      - "pex user %player% group add vip1"
-      - "money add %player 1000"
-    commandsRemovelVip:
-      - "pex user %player% group remove vip1"
-    activationBroadcast: "O jogador %player% \n Ativou o vip Vip 1"
-    rareCommandsToExecute:
-      percent: 10
-      commands:
-        - "playerpoints add %player% 100"
+storage:
+  user: 'u1030_bw4bmA3Qjq'
+  pass: '+j8FAaC+9Q+=HixiA8Ek^lyl'
+  host: '192.99.100.105'
+  db: 's1030_dbdunkin'
+  port: 3306
