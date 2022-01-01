@@ -1,5 +1,6 @@
 package guardianVip;
 
+import guardianVip.services.VipService;
 import guardianVip.sql.DatabaseManager;
 import guardianVip.utils.YamlConfig;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -10,12 +11,16 @@ public class GuardianVips extends JavaPlugin {
     private YamlConfig yamlVipConfig;
     private DatabaseManager databaseManager;
 
+    private VipService vipService;
+
     @Override
     public void onEnable() {
         super.onEnable();
         initConfig();
-        initDatabase();
-        openConnection();
+        vipService = new VipService(this);
+        vipService.loadVipListOnFile();
+//        initDatabase();
+//        openConnection();
     }
 
     @Override
@@ -46,5 +51,17 @@ public class GuardianVips extends JavaPlugin {
 
     private void closeConnection() {
             databaseManager.closeConnection();
+    }
+
+    public YamlConfig getYamlConfig() {
+        return yamlConfig;
+    }
+
+    public YamlConfig getYamlVipConfig() {
+        return yamlVipConfig;
+    }
+
+    public DatabaseManager getDatabaseManager() {
+        return databaseManager;
     }
 }

@@ -12,7 +12,7 @@
       - "playerpoints add %player% 100"
 
 2:
-  name: "Vip 1"
+  name: "Vip 2"
   commandsActivationVip:
     - "pex user %player% group add vip1"
     - "money add %player 1000"
