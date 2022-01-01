@@ -1,5 +1,6 @@
 package guardianVip;
 
+import guardianVip.commands.PlayerCommands;
 import guardianVip.services.VipService;
 import guardianVip.sql.DatabaseManager;
 import guardianVip.utils.YamlConfig;
@@ -19,6 +20,8 @@ public class GuardianVips extends JavaPlugin {
         initConfig();
         vipService = new VipService(this);
         vipService.loadVipListOnFile();
+        System.out.println(vipService.getVips());
+        getCommand("guardianvips").setExecutor(new PlayerCommands(this));
 //        initDatabase();
 //        openConnection();
     }

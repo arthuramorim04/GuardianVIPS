@@ -19,12 +19,26 @@ public class VipService {
 
 
     public void loadVipListOnFile() {
+        vips.clear();
         FileConfiguration configFile = plugin.getYamlVipConfig().getConfigFile();
         configFile.getKeys(false).forEach(vipKey -> {
 
             String nameVip = configFile.getString(vipKey + ".name");
             List<String> commandsActivationVip = configFile.getStringList(vipKey + ".commandsActivationVip");
-            System.out.println(commandsActivationVip);
+            List<String> commandsRemoveVip = configFile.getStringList(vipKey + ".commandsRemovelVip");
+            String activationBroadcast = configFile.getString(vipKey + ".activationBroadcast");
+
+            Vip vip = new Vip();
+            vip.setName(nameVip);
+            vip.setCommandsActivationVip(commandsActivationVip);
+            vip.setCommandsRemovelVip(commandsRemoveVip);
+            vip.setBroadcastActivation(activationBroadcast);
+
+            vips.add(vip);
         });
+    }
+
+    public List<Vip> getVips() {
+        return vips;
     }
 }

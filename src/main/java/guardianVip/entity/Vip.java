@@ -45,4 +45,14 @@ public class Vip {
     public void setBroadcastActivation(String broadcastActivation) {
         this.broadcastActivation = broadcastActivation;
     }
+
+    @Override
+    public String toString() {
+        return "Vip{" +
+                "name='" + name + '\'' +
+                ", commandsActivationVip=" + commandsActivationVip +
+                ", commandsRemovelVip=" + commandsRemovelVip +
+                ", broadcastActivation='" + broadcastActivation + '\'' +
+                '}';
+    }
 }

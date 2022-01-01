@@ -1,3 +1,7 @@
 name: GuardianVIPS
 version: 1.0
 main: guardianVip.GuardianVips
+
+commands:
+  guardianvips:
+    aliases: "gvips"
