@@ -1,6 +1,8 @@
 package guardianVip;
 
 import guardianVip.commands.PlayerCommands;
+import guardianVip.services.UserService;
+import guardianVip.services.VipActiveService;
 import guardianVip.services.VipService;
 import guardianVip.sql.DatabaseManager;
 import guardianVip.utils.YamlConfig;
@@ -13,6 +15,8 @@ public class GuardianVips extends JavaPlugin {
     private DatabaseManager databaseManager;
 
     private VipService vipService;
+    private UserService userService;
+    private VipActiveService vipActiveService;
 
     @Override
     public void onEnable() {
@@ -66,5 +70,17 @@ public class GuardianVips extends JavaPlugin {
 
     public DatabaseManager getDatabaseManager() {
         return databaseManager;
+    }
+
+    public VipService getVipService() {
+        return vipService;
+    }
+
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public VipActiveService getVipActiveService() {
+        return vipActiveService;
     }
 }
