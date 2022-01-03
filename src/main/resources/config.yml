@@ -7,4 +7,3 @@ storage:
   pass: '123'
   host: 'localhost'
   db: 'plugins'
-  port: 3306

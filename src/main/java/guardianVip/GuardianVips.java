@@ -1,6 +1,13 @@
 package guardianVip;
 
+import guardianVip.commands.ActiveVipCommand;
 import guardianVip.commands.PlayerCommands;
+import guardianVip.commands.VipTimeCommand;
+import guardianVip.commands.admin.AddVipCommand;
+import guardianVip.commands.admin.KeyGenerateCommand;
+import guardianVip.commands.admin.RemoveKeyCommand;
+import guardianVip.commands.admin.RemoveVipCommand;
+import guardianVip.repositories.UserVipRepository;
 import guardianVip.services.UserService;
 import guardianVip.services.VipActiveService;
 import guardianVip.services.VipService;
@@ -18,16 +25,18 @@ public class GuardianVips extends JavaPlugin {
     private UserService userService;
     private VipActiveService vipActiveService;
 
+    private UserVipRepository userVipRepository;
+
     @Override
     public void onEnable() {
         super.onEnable();
         initConfig();
-        vipService = new VipService(this);
-        vipService.loadVipListOnFile();
-        System.out.println(vipService.getVips());
-        getCommand("guardianvips").setExecutor(new PlayerCommands(this));
+        initRepositories();
+        initServices();
+        initCommands();
 //        initDatabase();
 //        openConnection();
+        initialLoad();
     }
 
     @Override
@@ -42,12 +51,36 @@ public class GuardianVips extends JavaPlugin {
         yamlVipConfig = new YamlConfig(this, "vips");
     }
 
+    private void initRepositories() {
+        userVipRepository = new UserVipRepository();
+    }
+
+    private void initServices() {
+        vipService = new VipService(this);
+        vipActiveService = new VipActiveService(this);
+        userService = new UserService(this.userVipRepository);
+    }
+
+    private void initialLoad() {
+        vipService.loadVipListOnFile();
+    }
+
+    private void initCommands() {
+        getCommand("guardianvips").setExecutor(new PlayerCommands(this));
+        getCommand("addvip").setExecutor(new AddVipCommand(this));
+        getCommand("gerarkey").setExecutor(new KeyGenerateCommand(this));
+
+        getCommand("removekey").setExecutor(new RemoveKeyCommand(this));
+        getCommand("removevip").setExecutor(new RemoveVipCommand(this));
+        getCommand("activevip").setExecutor(new ActiveVipCommand(this));
+        getCommand("viptime").setExecutor(new VipTimeCommand(this));
+    }
+
     private void initDatabase() {
         String user = yamlConfig.getConfigFile().getString("storage.user");
         String pass = yamlConfig.getConfigFile().getString("storage.pass");
         String host = yamlConfig.getConfigFile().getString("storage.host");
         String db = yamlConfig.getConfigFile().getString("storage.db");
-        Integer port = yamlConfig.getConfigFile().getInt("storage.port");
         databaseManager = new DatabaseManager(this);
         databaseManager.initMySQL(host, db, user, pass);
     }

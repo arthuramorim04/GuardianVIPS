@@ -5,3 +5,14 @@ main: guardianVip.GuardianVips
 commands:
   guardianvips:
     aliases: "gvips"
+  addvip:
+  gerarkey:
+  removekey:
+  removevip:
+  activevip:
+    aliases:
+      - "usekey"
+      - "usarkey"
+  viptime:
+    aliases:
+      - "tempovip"
