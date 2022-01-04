@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -70,5 +71,9 @@ public class VipActive {
             return true;
         }
         return false;
+    }
+
+    public Long getDays() {
+        return ChronoUnit.DAYS.between(activationDate, expiredAt);
     }
 }

@@ -23,6 +23,6 @@ public class UserVipRepository implements RepositoryInterface<UserVip, String> {
 
     @Override
     public UserVip seletcByName(String key) {
-        return null;
+        return userVips.get(key);
     }
 }

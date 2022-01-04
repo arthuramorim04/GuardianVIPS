@@ -16,3 +16,4 @@ commands:
   viptime:
     aliases:
       - "tempovip"
+  listvip:

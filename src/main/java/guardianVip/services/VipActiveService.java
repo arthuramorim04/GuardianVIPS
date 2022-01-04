@@ -14,22 +14,36 @@ import java.util.stream.Collectors;
 public class VipActiveService {
 
     private GuardianVips plugin;
-    private UserService userService;
 
     public VipActiveService(GuardianVips plugin) {
         this.plugin = plugin;
-        this.userService = plugin.getUserService();
     }
 
     public VipActive activeVip(Vip vip, Player player, Long days) {
         VipActive vipActive = new VipActive(vip);
         boolean isActive = vipActive.activeVip(days);
         if (!isActive) return null;
-        UserVip userVip = userService.getUserVip(player.getName());
-        userVip.getVipsActivated().add(vipActive);
+        UserVip userVip = plugin.getUserService().getUserVip(player.getName());
+        if (userVip == null) {
+            userVip = plugin.getUserService().create(player);
+        }
+        setVipOrAddDays(userVip, vipActive, days);
         executeActivationCommands(vip, player);
 
         return vipActive;
+    }
+
+    public void setVipOrAddDays(UserVip userVip, VipActive vipActive, Long days) {
+        VipActive vipInActivatedList = userVip.getVipsActivated()
+                .stream().filter(vipActivated ->
+                        vipActivated.getVip().getName().equals(vipActive.getVip().getName())
+                ).findFirst().orElse(null);
+        if (vipInActivatedList == null) {
+            userVip.getVipsActivated().add(vipActive);
+            return;
+        } else {
+            vipInActivatedList.addDays(days);
+        }
     }
 
     public void removeVipExpired(UserVip userVip, Player player) {
@@ -41,7 +55,7 @@ public class VipActiveService {
     }
 
     public void removeVip(Vip vip, Player player) {
-        UserVip userVip = userService.getUserVip(player.getName());
+        UserVip userVip = plugin.getUserService().getUserVip(player.getName());
         List<VipActive> vipsToRemove = userVip.getVipsActivated().stream()
                 .filter(vipActive -> vipActive.getVip().equals(vip)).collect(Collectors.toList());
         vipsToRemove.forEach(vipToRemove -> {

@@ -3,6 +3,7 @@ package guardianVip.entity;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,7 +13,7 @@ public class UserVip {
 
     private String name;
     private UUID uuid;
-    private List<VipActive> vipsActivated;
+    private List<VipActive> vipsActivated = new ArrayList<>();
 
     public String getName() {
         return name;

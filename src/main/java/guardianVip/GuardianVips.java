@@ -3,10 +3,7 @@ package guardianVip;
 import guardianVip.commands.ActiveVipCommand;
 import guardianVip.commands.PlayerCommands;
 import guardianVip.commands.VipTimeCommand;
-import guardianVip.commands.admin.AddVipCommand;
-import guardianVip.commands.admin.KeyGenerateCommand;
-import guardianVip.commands.admin.RemoveKeyCommand;
-import guardianVip.commands.admin.RemoveVipCommand;
+import guardianVip.commands.admin.*;
 import guardianVip.repositories.UserVipRepository;
 import guardianVip.services.UserService;
 import guardianVip.services.VipActiveService;
@@ -37,6 +34,13 @@ public class GuardianVips extends JavaPlugin {
 //        initDatabase();
 //        openConnection();
         initialLoad();
+    }
+
+    @Override
+    public void onLoad() {
+        super.onLoad();
+
+        //recarrega vips
     }
 
     @Override
@@ -74,6 +78,7 @@ public class GuardianVips extends JavaPlugin {
         getCommand("removevip").setExecutor(new RemoveVipCommand(this));
         getCommand("activevip").setExecutor(new ActiveVipCommand(this));
         getCommand("viptime").setExecutor(new VipTimeCommand(this));
+        getCommand("listvip").setExecutor(new ListVipCommand(this));
     }
 
     private void initDatabase() {

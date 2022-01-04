@@ -3,6 +3,7 @@ package guardianVip.entity;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -10,8 +11,8 @@ import java.util.List;
 public class Vip {
 
     private String name;
-    private List<String> commandsActivationVip;
-    private List<String> commandsRemovelVip;
+    private List<String> commandsActivationVip = new ArrayList<>();
+    private List<String> commandsRemovelVip = new ArrayList<>();
     private String broadcastActivation;
 
     public String getName() {
