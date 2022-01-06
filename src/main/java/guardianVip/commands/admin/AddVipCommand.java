@@ -37,7 +37,7 @@ public class AddVipCommand implements CommandExecutor {
                 return true;
             }
 
-            plugin.getVipActiveService().activeVip(vip, player, Long.valueOf(args[2]));
+            plugin.getVipActiveService().activeVip(vip, player, Long.valueOf(args[2]), Long.valueOf(args[3]), Long.valueOf(args[4]));
 
             player.sendMessage(vip.getBroadcastActivation().replace("%player%", player.getName()));
         } else {

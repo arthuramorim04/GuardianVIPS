@@ -19,9 +19,9 @@ public class VipActiveService {
         this.plugin = plugin;
     }
 
-    public VipActive activeVip(Vip vip, Player player, Long days) {
+    public VipActive activeVip(Vip vip, Player player, Long days, Long hours, Long minutes) {
         VipActive vipActive = new VipActive(vip);
-        boolean isActive = vipActive.activeVip(days);
+        boolean isActive = vipActive.activeVip(days, hours, minutes);
         if (!isActive) return null;
         UserVip userVip = plugin.getUserService().getUserVip(player.getName());
         if (userVip == null) {

@@ -63,11 +63,11 @@ public class VipActive {
         return this.getExpiredAt();
     }
 
-    public boolean activeVip(Long qtdDays) {
+    public boolean activeVip(Long qtdDays, Long qtdHours, Long qtdminutes) {
         if (this.vip != null) {
             LocalDateTime activationVip = LocalDateTime.now();
             this.activationDate = activationVip;
-            this.expiredAt = activationVip.plusDays(qtdDays);
+            this.expiredAt = activationVip.plusDays(qtdDays).plusHours(qtdHours).plusMinutes(qtdminutes);
             return true;
         }
         return false;
