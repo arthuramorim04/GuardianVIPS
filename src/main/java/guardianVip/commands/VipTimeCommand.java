@@ -1,6 +1,7 @@
 package guardianVip.commands;
 
 import guardianVip.GuardianVips;
+import guardianVip.entity.UserVip;
 import guardianVip.entity.VipActive;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -17,12 +18,13 @@ public class VipTimeCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        List<VipActive> vipsActivated = plugin.getUserService().getUserVip(commandSender.getName()).getVipsActivated();
-        if (vipsActivated == null || vipsActivated.isEmpty()) {
+        UserVip userVip = plugin.getUserService().getUserVip(commandSender.getName());
+
+        if (userVip == null || userVip.getVipsActivated() == null || userVip.getVipsActivated().isEmpty()) {
             commandSender.sendMessage("Nao possui vip");
             return true;
         }
-        vipsActivated.forEach(vipActive -> {
+        userVip.getVipsActivated().forEach(vipActive -> {
             commandSender.sendMessage(vipActive.getVip().getName() + ": " + vipActive.getDays());
         });
         return false;
