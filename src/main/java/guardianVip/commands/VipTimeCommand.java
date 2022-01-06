@@ -6,11 +6,12 @@ import guardianVip.entity.VipActive;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 
-import java.util.List;
 
 public class VipTimeCommand implements CommandExecutor {
-    private GuardianVips plugin;
+
+    private final GuardianVips plugin;
 
     public VipTimeCommand(GuardianVips plugin) {
         this.plugin = plugin;
@@ -18,15 +19,18 @@ public class VipTimeCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        UserVip userVip = plugin.getUserService().getUserVip(commandSender.getName());
+        if (!(commandSender instanceof ConsoleCommandSender)) {
+            UserVip userVip = plugin.getUserService().getUserVip(commandSender.getName());
 
-        if (userVip == null || userVip.getVipsActivated() == null || userVip.getVipsActivated().isEmpty()) {
-            commandSender.sendMessage("Nao possui vip");
-            return true;
+            if (userVip == null || userVip.getVipsActivated() == null || userVip.getVipsActivated().isEmpty()) {
+                commandSender.sendMessage("Nao possui vip");
+                return true;
+            }
+            userVip.getVipsActivated().forEach(vipActive -> {
+                commandSender.sendMessage(vipActive.getVip().getName() + ": " + vipActive.getDays());
+            });
         }
-        userVip.getVipsActivated().forEach(vipActive -> {
-            commandSender.sendMessage(vipActive.getVip().getName() + ": " + vipActive.getDays());
-        });
+        commandSender.sendMessage("Comando disponivel apenas para jogadores");
         return false;
     }
 }
