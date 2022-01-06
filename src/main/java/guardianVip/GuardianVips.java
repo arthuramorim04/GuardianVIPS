@@ -9,6 +9,7 @@ import guardianVip.services.UserService;
 import guardianVip.services.VipActiveService;
 import guardianVip.services.VipService;
 import guardianVip.sql.DatabaseManager;
+import guardianVip.utils.MessageUtils;
 import guardianVip.utils.YamlConfig;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -16,11 +17,14 @@ public class GuardianVips extends JavaPlugin {
 
     private YamlConfig yamlConfig;
     private YamlConfig yamlVipConfig;
+    private YamlConfig messageConfig;
     private DatabaseManager databaseManager;
 
     private VipService vipService;
     private UserService userService;
     private VipActiveService vipActiveService;
+
+    private MessageUtils messageUtils;
 
     private UserVipRepository userVipRepository;
 
@@ -53,6 +57,7 @@ public class GuardianVips extends JavaPlugin {
     private void initConfig() {
         yamlConfig = new YamlConfig(this,"config");
         yamlVipConfig = new YamlConfig(this, "vips");
+        messageConfig = new YamlConfig(this, "messages");
     }
 
     private void initRepositories() {
@@ -63,6 +68,7 @@ public class GuardianVips extends JavaPlugin {
         vipService = new VipService(this);
         vipActiveService = new VipActiveService(this);
         userService = new UserService(this.userVipRepository);
+        messageUtils = new MessageUtils(this);
     }
 
     private void initialLoad() {
@@ -120,5 +126,13 @@ public class GuardianVips extends JavaPlugin {
 
     public VipActiveService getVipActiveService() {
         return vipActiveService;
+    }
+
+    public YamlConfig getMessageConfig() {
+        return messageConfig;
+    }
+
+    public MessageUtils getMessageUtils() {
+        return messageUtils;
     }
 }

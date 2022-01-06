@@ -29,8 +29,9 @@ public class VipTimeCommand implements CommandExecutor {
             userVip.getVipsActivated().forEach(vipActive -> {
                 commandSender.sendMessage(vipActive.getVip().getName() + ": " + vipActive.getDays());
             });
+        } else {
+            commandSender.sendMessage("Comando disponivel apenas para jogadores");
         }
-        commandSender.sendMessage("Comando disponivel apenas para jogadores");
         return false;
     }
 }

@@ -19,26 +19,30 @@ public class AddVipCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (args.length != 3) {
-            sender.sendMessage("Command error, use: /addvip <Player> <VIP> <Days>");
-            return true;
+        if (sender.hasPermission("guardianvips.addvip")) {
+            if (args.length != 3) {
+                sender.sendMessage("Command error, use: /addvip <Player> <VIP> <Days>");
+                return true;
+            }
+
+            Vip vip = plugin.getVipService().getVipByName(args[1]);
+            if (vip == null) {
+                sender.sendMessage("Vip not found");
+                return true;
+            }
+
+            Player player = Bukkit.getPlayerExact(args[0]);
+            if (player == null) {
+                sender.sendMessage("Player not found");
+                return true;
+            }
+
+            plugin.getVipActiveService().activeVip(vip, player, Long.valueOf(args[2]));
+
+            player.sendMessage(vip.getBroadcastActivation().replace("%player%", player.getName()));
+        } else {
+            sender.sendMessage(plugin.getMessageUtils().getMessage("no_permission"));
         }
-
-        Vip vip = plugin.getVipService().getVipByName(args[1]);
-        if (vip == null) {
-            sender.sendMessage("Vip not found");
-            return true;
-        }
-
-        Player player = Bukkit.getPlayerExact(args[0]);
-        if (player == null) {
-            sender.sendMessage("Player not found");
-            return true;
-        }
-
-        plugin.getVipActiveService().activeVip(vip, player, Long.valueOf(args[2]));
-
-        player.sendMessage(vip.getBroadcastActivation().replace("%player%", player.getName()));
         return false;
     }
 }

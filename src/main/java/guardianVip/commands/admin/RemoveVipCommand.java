@@ -40,7 +40,7 @@ public class RemoveVipCommand implements CommandExecutor {
 
             plugin.getVipActiveService().removeVip(vip, player);
 
-            player.sendMessage("Sua vip " + vip.getName() + "foi removida");
+            player.sendMessage("Sua vip " + vip.getName() + " foi removida");
 
         } else {
             sender.sendMessage("Você não possui permissão");
