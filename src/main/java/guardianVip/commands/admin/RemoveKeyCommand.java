@@ -14,6 +14,10 @@ public class RemoveKeyCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
+
+        if (commandSender.hasPermission("guardianvips.removevip")){
+
+        }
         commandSender.sendMessage(this.getClass().getName());
         return false;
     }

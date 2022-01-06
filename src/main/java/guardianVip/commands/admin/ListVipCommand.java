@@ -16,8 +16,14 @@ public class ListVipCommand implements CommandExecutor {
         this.plugin = plugin;
     }
 
+
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
+
+        if (commandSender.hasPermission("guardianvips.removevip")){
+
+        }
+
         List<String> vipsName = plugin.getVipService().getVips().stream().map(vip -> vip.getName()).collect(Collectors.toList());
         commandSender.sendMessage(String.valueOf(vipsName));
         return false;

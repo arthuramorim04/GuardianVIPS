@@ -28,13 +28,13 @@ public class RemoveVipCommand implements CommandExecutor {
 
             Vip vip = plugin.getVipService().getVipByName(args[1]);
             if (vip == null) {
-                sender.sendMessage("Vip not found");
+                sender.sendMessage(plugin.getMessageUtils().getMessage("vip_not_found"));
                 return true;
             }
 
             Player player = Bukkit.getPlayerExact(args[0]);
             if (player == null) {
-                sender.sendMessage("Player not found");
+                sender.sendMessage(plugin.getMessageUtils().getMessage("player_not_found"));
                 return true;
             }
 
@@ -43,7 +43,7 @@ public class RemoveVipCommand implements CommandExecutor {
             player.sendMessage("Sua vip " + vip.getName() + " foi removida");
 
         } else {
-            sender.sendMessage("Você não possui permissão");
+            sender.sendMessage(plugin.getMessageUtils().getMessage("player_not_found"));
         }
         return false;
     }
