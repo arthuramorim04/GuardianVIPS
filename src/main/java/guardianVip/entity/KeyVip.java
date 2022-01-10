@@ -8,17 +8,21 @@ public class KeyVip {
     private Long days;
     private Long hours;
     private Long minutes;
-    private Long allowedUsage;
+    private Long remainingUse;
+    private boolean isEnable;
 
     public KeyVip() {
     }
 
-    public KeyVip(Long key, String keyString, String vipName, Long days, Long allowedUsage) {
+    public KeyVip(Long key, String keyString, String vipName, Long days, Long hours, Long minutes, Long remainingUse, boolean isEnable) {
         this.key = key;
         this.keyString = keyString;
         this.vipName = vipName;
         this.days = days;
-        this.allowedUsage = allowedUsage;
+        this.hours = hours;
+        this.minutes = minutes;
+        this.remainingUse = remainingUse;
+        this.isEnable = isEnable;
     }
 
     public Long getKey() {
@@ -53,18 +57,6 @@ public class KeyVip {
         this.days = days;
     }
 
-    public Long getAllowedUsage() {
-        return allowedUsage;
-    }
-
-    public void setAllowedUsage(Long allowedUsage) {
-        this.allowedUsage = allowedUsage;
-    }
-
-    public String serializeKey() {
-        return vipName + ";" + key + ";" + keyString + ";" + days + ";"+ hours + ";"+ minutes + ";" + allowedUsage;
-    }
-
     public Long getHours() {
         return hours;
     }
@@ -81,16 +73,19 @@ public class KeyVip {
         this.minutes = minutes;
     }
 
-    public KeyVip deserializeKey(String keySerialized) {
-        String[] split = keySerialized.split(";");
+    public boolean isEnable() {
+        return isEnable;
+    }
 
-        this.vipName = split[0];
-        this.key = Long.valueOf(split[1]);
-        this.keyString = split[2];
-        this.days = Long.valueOf(split[3]);
-        this.hours = Long.valueOf(split[4]);
-        this.minutes = Long.valueOf(split[5]);
-        this.allowedUsage = Long.valueOf(split[6]);
-        return this;
+    public void setEnable(boolean enable) {
+        isEnable = enable;
+    }
+
+    public Long getRemainingUse() {
+        return remainingUse;
+    }
+
+    public void setRemainingUse(Long remainingUse) {
+        this.remainingUse = remainingUse;
     }
 }

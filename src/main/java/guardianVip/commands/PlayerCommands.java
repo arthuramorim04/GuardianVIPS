@@ -17,8 +17,7 @@ public class PlayerCommands implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-
-        sender.sendMessage("Guardian Vips\n/ativarvip <key> - Ativar uma chave de vip\n/tempovip - Mostrar sua lista de vips ativas");
+        sender.sendMessage(plugin.getMessageUtils().getMessage("player_help"));
         return false;
     }
 

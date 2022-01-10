@@ -4,6 +4,9 @@ import guardianVip.entity.UserVip;
 import guardianVip.repositories.UserVipRepository;
 import org.bukkit.entity.Player;
 
+import java.util.List;
+import java.util.Map;
+
 public class UserService {
 
     private UserVipRepository userVipRepository;
@@ -41,5 +44,9 @@ public class UserService {
 
     public UserVip getUserVip(String name) {
         return userVipRepository.seletcByName(name);
+    }
+
+    public Map<String, UserVip> getUserVipMap() {
+        return userVipRepository.getAll();
     }
 }

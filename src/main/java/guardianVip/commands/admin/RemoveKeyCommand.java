@@ -13,10 +13,12 @@ public class RemoveKeyCommand implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
+    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
 
-        if (commandSender.hasPermission("guardianvips.removevip" + "admin")){
-
+        if (commandSender.hasPermission("guardianvips.removevip") || commandSender.hasPermission("guardianvips.admin")){
+            plugin.getKeysService().deleteKey(args[0]);
+        }  else {
+            commandSender.sendMessage(plugin.getMessageUtils().getMessage("no_permission"));
         }
         commandSender.sendMessage(this.getClass().getName());
         return false;

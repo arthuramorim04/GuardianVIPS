@@ -19,7 +19,7 @@ public class AddVipCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (sender.hasPermission("guardianvips.addvip" + "admin")) {
+        if (sender.hasPermission("guardianvips.addvip") || sender.hasPermission("guardianvips.admin")) {
             if (args.length != 5) {
                 sender.sendMessage("Command error, use: /addvip <Player> <VIP> <Days> <Hours> <Minutes>");
                 return true;

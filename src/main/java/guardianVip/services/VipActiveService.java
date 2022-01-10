@@ -84,4 +84,23 @@ public class VipActiveService {
         Bukkit.getOnlinePlayers().forEach(player -> plugin.getMessageUtils().sendTitle(player, message));
     }
 
+    public void removeExpiredVipsIfN() {
+        plugin.getUserService().getUserVipMap().values().forEach(userVip -> {
+            Player playerExact = Bukkit.getPlayerExact(userVip.getName());
+            if (userVip.getVipsActivated().size() > 0 && playerExact != null) {
+                List<VipActive> vipsToRemove = getVipsToRemove(userVip);
+                vipsToRemove.forEach(vipExpired -> removeVipExpired(userVip, playerExact));
+            }
+        });
+    }
+
+    private List<VipActive> getVipsToRemove(UserVip userVip) {
+        if (userVip.getVipsActivated().size() > 0) {
+            return userVip.getVipsActivated().stream().filter(
+                    vipActive -> vipActive.getExpiredAt().isBefore(LocalDateTime.now()))
+                    .collect(Collectors.toList());
+        }
+        return null;
+    }
+
 }

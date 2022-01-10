@@ -19,7 +19,7 @@ public class RemoveVipCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (sender.hasPermission("guardianvips.removevip" + "admin")) {
+        if (sender.hasPermission("guardianvips.removevip") || sender.hasPermission("guardianvips.admin")) {
 
             if (args.length != 2) {
                 sender.sendMessage("Command error, use: /removevip <Player> <VIP>");

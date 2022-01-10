@@ -20,12 +20,13 @@ public class ListVipCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
 
-        if (commandSender.hasPermission("guardianvips.removevip" + "admin")){
-
-        }
-
+        if (commandSender.hasPermission("guardianvips.removevip") || commandSender.hasPermission("guardianvips.admin")){
         List<String> vipsName = plugin.getVipService().getVips().stream().map(vip -> vip.getName()).collect(Collectors.toList());
         commandSender.sendMessage(String.valueOf(vipsName));
-        return false;
+        return true;
+        }  else {
+            commandSender.sendMessage(plugin.getMessageUtils().getMessage("no_permission"));
+            return false;
+        }
     }
 }

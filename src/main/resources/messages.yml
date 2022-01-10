@@ -1,3 +1,5 @@
 no_permission: "Voce nao pode fazer isso"
 player_not_found: "Jogador não encontrado"
 vip_not_found: "Vip não encontrado"
+key_not_found: "Key nao encontrada."
+player_help: "Guardian Vips\n/ativarvip <key> - Ativar uma chave de vip\n/tempovip - Mostrar sua lista de vips ativas"

@@ -11,6 +11,7 @@ import guardianVip.services.UserService;
 import guardianVip.services.VipActiveService;
 import guardianVip.services.VipService;
 import guardianVip.sql.DatabaseManager;
+import guardianVip.tasks.RemoveExpiredVips;
 import guardianVip.utils.MessageUtils;
 import guardianVip.utils.YamlConfig;
 import org.bukkit.Bukkit;
@@ -34,6 +35,8 @@ public class GuardianVips extends JavaPlugin {
 
     private UserVipRepository userVipRepository;
 
+    private RemoveExpiredVips removeExpiredVips;
+
     @Override
     public void onEnable() {
         super.onEnable();
@@ -45,6 +48,7 @@ public class GuardianVips extends JavaPlugin {
 //        initDatabase();
 //        openConnection();
         initialLoad();
+        initTasks();
     }
 
     @Override
@@ -107,6 +111,11 @@ public class GuardianVips extends JavaPlugin {
         String db = yamlConfig.getConfigFile().getString("storage.db");
         databaseManager = new DatabaseManager(this);
         databaseManager.initMySQL(host, db, user, pass);
+    }
+
+    private void initTasks() {
+        removeExpiredVips = new RemoveExpiredVips(this);
+        removeExpiredVips.runTaskTimerAsynchronously(this, 0L, 20*600L);
     }
 
     private void openConnection() {
