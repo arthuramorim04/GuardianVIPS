@@ -58,7 +58,7 @@ public class VipActive {
         this.activeId = activeId;
     }
 
-    public LocalDateTime addDays(Long days) {
+    public LocalDateTime addDays (Long days) {
         this.expiredAt = this.getExpiredAt().plusDays(days);
         return this.getExpiredAt();
     }

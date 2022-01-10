@@ -30,6 +30,8 @@ public class VipActiveService {
         setVipOrAddDays(userVip, vipActive, days);
         executeActivationCommands(vip, player);
 
+        String activateMessage = vip.getBroadcastActivation().replace("%player%", player.getName());
+        sendActiveVipMessage(activateMessage);
         return vipActive;
     }
 
@@ -75,6 +77,11 @@ public class VipActiveService {
         vip.getCommandsRemovelVip().forEach(command -> {
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("%player%", player.getName()));
         });
+    }
+
+    private void sendActiveVipMessage(String message){
+
+        Bukkit.getOnlinePlayers().forEach(player -> plugin.getMessageUtils().sendTitle(player, message));
     }
 
 }

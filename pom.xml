@@ -42,6 +42,14 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.craftbukkit</groupId>
+            <artifactId>craftbukkit-1.8.8</artifactId>
+            <version>1.8.8</version>
+            <systemPath>${project.basedir}/libs/craftbukkit-1.8.8-R0.1-SNAPSHOT-latest.jar</systemPath>
+            <scope>system</scope>
+        </dependency>
+
     </dependencies>
 
 </project>

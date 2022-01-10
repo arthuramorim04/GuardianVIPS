@@ -4,6 +4,7 @@ import guardianVip.commands.ActiveVipCommand;
 import guardianVip.commands.PlayerCommands;
 import guardianVip.commands.VipTimeCommand;
 import guardianVip.commands.admin.*;
+import guardianVip.listeners.PlayerListener;
 import guardianVip.repositories.UserVipRepository;
 import guardianVip.services.UserService;
 import guardianVip.services.VipActiveService;
@@ -11,6 +12,7 @@ import guardianVip.services.VipService;
 import guardianVip.sql.DatabaseManager;
 import guardianVip.utils.MessageUtils;
 import guardianVip.utils.YamlConfig;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class GuardianVips extends JavaPlugin {
@@ -35,6 +37,7 @@ public class GuardianVips extends JavaPlugin {
         initRepositories();
         initServices();
         initCommands();
+        initListeners();
 //        initDatabase();
 //        openConnection();
         initialLoad();
@@ -73,6 +76,10 @@ public class GuardianVips extends JavaPlugin {
 
     private void initialLoad() {
         vipService.loadVipListOnFile();
+    }
+
+    private void initListeners() {
+        Bukkit.getPluginManager().registerEvents(new PlayerListener(this), this);
     }
 
     private void initCommands() {

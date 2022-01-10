@@ -20,7 +20,7 @@ public class ListVipCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
 
-        if (commandSender.hasPermission("guardianvips.removevip")){
+        if (commandSender.hasPermission("guardianvips.removevip" + "admin")){
 
         }
 

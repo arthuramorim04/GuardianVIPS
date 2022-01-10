@@ -19,9 +19,9 @@ public class AddVipCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (sender.hasPermission("guardianvips.addvip")) {
-            if (args.length != 3) {
-                sender.sendMessage("Command error, use: /addvip <Player> <VIP> <Days>");
+        if (sender.hasPermission("guardianvips.addvip" + "admin")) {
+            if (args.length != 5) {
+                sender.sendMessage("Command error, use: /addvip <Player> <VIP> <Days> <Hours> <Minutes>");
                 return true;
             }
 
@@ -38,8 +38,9 @@ public class AddVipCommand implements CommandExecutor {
             }
 
             plugin.getVipActiveService().activeVip(vip, player, Long.valueOf(args[2]), Long.valueOf(args[3]), Long.valueOf(args[4]));
+            String activateMessage = vip.getBroadcastActivation().replace("%player%", player.getName());
+            player.sendMessage(activateMessage);
 
-            player.sendMessage(vip.getBroadcastActivation().replace("%player%", player.getName()));
         } else {
             sender.sendMessage(plugin.getMessageUtils().getMessage("no_permission"));
         }
