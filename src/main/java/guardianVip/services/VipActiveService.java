@@ -95,7 +95,7 @@ public class VipActiveService {
     }
 
     private List<VipActive> getVipsToRemove(UserVip userVip) {
-        if (userVip.getVipsActivated().size() > 0) {
+        if (!userVip.getVipsActivated().isEmpty()) {
             return userVip.getVipsActivated().stream().filter(
                     vipActive -> vipActive.getExpiredAt().isBefore(LocalDateTime.now()))
                     .collect(Collectors.toList());
