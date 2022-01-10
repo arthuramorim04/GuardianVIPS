@@ -2,6 +2,11 @@ messages:
   vipExpired: "seu vip %vip% expirou, acesso nossa loja e compre mais dias."
   vipRemoved: "seu vip %vip% foi removido por um staff"
 
+
+# Tipo de chave de ativacao
+# 1 - Apenas numeros
+# 2 - Apenas letras
+keyType: 1
 storage:
   user: 'mysql'
   pass: '123'

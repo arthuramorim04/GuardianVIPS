@@ -1,6 +1,8 @@
 package guardianVip.commands.admin;
 
 import guardianVip.GuardianVips;
+import guardianVip.entity.KeyVip;
+import guardianVip.entity.Vip;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -13,13 +15,20 @@ public class KeyGenerateCommand implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
+    public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+        if (sender.hasPermission("guardianvips.key.generate")) {
+//            /keygenerate <Vip> <Days> <Usage>
+            if (args.length != 3) {
+                sender.sendMessage("Use /keygenerate <Vip> <Days> <NumUsage>");
+            }
 
-        if (commandSender.hasPermission("guardianvips.removevip" + "admin")) {
+            Vip vipByName = plugin.getVipService().getVipByName(args[0]);
+            Long daysVip = Long.valueOf(args[1]);
+            Long usage = Long.valueOf(args[2]);
 
+            KeyVip keyVip = plugin.getKeysService().generate(vipByName, daysVip, usage);
+            sender.sendMessage(keyVip.toString());
         }
-
-        commandSender.sendMessage(this.getClass().getName());
         return false;
     }
 }

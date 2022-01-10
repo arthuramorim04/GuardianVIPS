@@ -6,6 +6,7 @@ import guardianVip.commands.VipTimeCommand;
 import guardianVip.commands.admin.*;
 import guardianVip.listeners.PlayerListener;
 import guardianVip.repositories.UserVipRepository;
+import guardianVip.services.KeysService;
 import guardianVip.services.UserService;
 import guardianVip.services.VipActiveService;
 import guardianVip.services.VipService;
@@ -20,11 +21,14 @@ public class GuardianVips extends JavaPlugin {
     private YamlConfig yamlConfig;
     private YamlConfig yamlVipConfig;
     private YamlConfig messageConfig;
+    private YamlConfig keysVips;
+
     private DatabaseManager databaseManager;
 
     private VipService vipService;
     private UserService userService;
     private VipActiveService vipActiveService;
+    private KeysService keysService;
 
     private MessageUtils messageUtils;
 
@@ -61,6 +65,7 @@ public class GuardianVips extends JavaPlugin {
         yamlConfig = new YamlConfig(this,"config");
         yamlVipConfig = new YamlConfig(this, "vips");
         messageConfig = new YamlConfig(this, "messages");
+        keysVips = new YamlConfig(this, "keys");
     }
 
     private void initRepositories() {
@@ -72,6 +77,7 @@ public class GuardianVips extends JavaPlugin {
         vipActiveService = new VipActiveService(this);
         userService = new UserService(this.userVipRepository);
         messageUtils = new MessageUtils(this);
+        keysService = new KeysService(this);
     }
 
     private void initialLoad() {
@@ -141,5 +147,13 @@ public class GuardianVips extends JavaPlugin {
 
     public MessageUtils getMessageUtils() {
         return messageUtils;
+    }
+
+    public YamlConfig getKeysVips() {
+        return keysVips;
+    }
+
+    public KeysService getKeysService() {
+        return keysService;
     }
 }
