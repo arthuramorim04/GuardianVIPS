@@ -37,9 +37,15 @@ public class AddVipCommand implements CommandExecutor {
                 return true;
             }
 
-            plugin.getVipActiveService().activeVip(vip, player, Long.valueOf(args[2]), Long.valueOf(args[3]), Long.valueOf(args[4]));
-            String activateMessage = vip.getBroadcastActivation().replace("%player%", player.getName());
-            player.sendMessage(activateMessage);
+            try {
+                plugin.getVipActiveService().activeVip(vip, player, Long.valueOf(args[2]), Long.valueOf(args[3]), Long.valueOf(args[4]));
+                String activateMessage = vip.getBroadcastActivation().replace("%player%", player.getName());
+                player.sendMessage(activateMessage);
+                return true;
+            } catch (Exception e) {
+                sender.sendMessage(plugin.getMessageUtils().getMessage("error_add_vip"));
+                return false;
+            }
 
         } else {
             sender.sendMessage(plugin.getMessageUtils().getMessage("no_permission"));
