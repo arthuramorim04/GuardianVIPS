@@ -31,6 +31,14 @@ public class KeysService {
         if (keyVip != null && keyVip.isEnable() && keyVip.getRemainingUse() > 0) {
             Vip vip = plugin.getVipService().getVipByName(keyVip.getVipName());
             plugin.getVipActiveService().activeVip(vip, player, keyVip.getDays(), keyVip.getHours(), keyVip.getMinutes());
+            keyVip.setRemainingUse(keyVip.getRemainingUse() - 1);
+            ConfigurationSection section = plugin.getKeysVips().getConfigFile().getConfigurationSection(String.valueOf(keyVip.getKey()));
+            section.set("remainingUse", keyVip.getRemainingUse());
+            try {
+                plugin.getKeysVips().getConfigFile().save(plugin.getKeysVips().getConfig());
+            } catch (Exception e) {
+                System.out.println("error save keys.yml");
+            }
         }
     }
 

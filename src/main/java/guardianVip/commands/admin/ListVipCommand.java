@@ -22,7 +22,9 @@ public class ListVipCommand implements CommandExecutor {
 
         if (commandSender.hasPermission("guardianvips.removevip") || commandSender.hasPermission("guardianvips.admin")){
         List<String> vipsName = plugin.getVipService().getVips().stream().map(vip -> vip.getName()).collect(Collectors.toList());
-        commandSender.sendMessage(String.valueOf(vipsName));
+        vipsName.forEach(vipName -> {
+            commandSender.sendMessage(plugin.getMessageUtils().replaceColorSimbol(vipName));
+        });
         return true;
         }  else {
             commandSender.sendMessage(plugin.getMessageUtils().getMessage("no_permission"));

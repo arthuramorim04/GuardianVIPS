@@ -24,15 +24,17 @@ public class PlayerListener implements Listener {
     public void playerJoin(PlayerJoinEvent e) {
 
         if (e.getPlayer().hasPlayedBefore()) {
-            UserVip userVip = plugin.getUserService().loadUserVip(e.getPlayer());
-            plugin.getVipActiveService().removeVipExpired(userVip, e.getPlayer());
+            plugin.getUserService().loadUserVip(e.getPlayer());
         } else {
             plugin.getUserService().create(e.getPlayer());
         }
 
     }
 
+    @EventHandler
     public void playerLeft(PlayerQuitEvent e) {
-
+        Player player = e.getPlayer();
+        plugin.getUserService().saveUserVip(player);
+        plugin.getUserService().removeUserVipOnMap(player.getName());
     }
 }

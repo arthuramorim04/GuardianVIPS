@@ -121,7 +121,7 @@ public class UserVipRepository {
         try {
             SQL sql = plugin.getDatabaseManager().getSql();
             PreparedStatement ps;
-            ps = sql.prepareStatement("insert into guardianvips (name, uuid, vipsActivated) " +
+            ps = sql.prepareStatement("insert into guardianvips (name, uuid, vipActivated) " +
                     "values('" +userVip.getName() + "','" + userVip.getUuid() + "','" + vipsActivated + "')");
 
             ps.execute();
@@ -137,7 +137,9 @@ public class UserVipRepository {
 
     public void saveUserVip(String user) {
         UserVip userVip = userVips.get(user);
-        saveUserVip(userVip);
+        if (userVip != null) {
+            saveUserVip(userVip);
+        }
     }
     public UserVip seletcByName(Player player) {
         if (userVips.containsKey(player.getName())) {
@@ -158,6 +160,10 @@ public class UserVipRepository {
             e.printStackTrace();
         }
 
+    }
+
+    public void removeUserVipOnMap(String key) {
+        userVips.remove(key);
     }
 
 }

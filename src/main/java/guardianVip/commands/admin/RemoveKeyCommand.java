@@ -17,6 +17,7 @@ public class RemoveKeyCommand implements CommandExecutor {
 
         if (commandSender.hasPermission("guardianvips.removevip") || commandSender.hasPermission("guardianvips.admin")){
             plugin.getKeysService().deleteKey(args[0]);
+            commandSender.sendMessage(plugin.getMessageUtils().getMessage("removed_key"));
         }  else {
             commandSender.sendMessage(plugin.getMessageUtils().getMessage("no_permission"));
         }

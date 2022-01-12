@@ -2,6 +2,7 @@ package guardianVip.commands;
 
 import guardianVip.GuardianVips;
 import guardianVip.entity.KeyVip;
+import guardianVip.utils.KeysUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -25,7 +26,7 @@ public class ActiveVipCommand implements CommandExecutor {
             return false;
         }
         if (args.length != 1) {
-            sender.sendMessage("Use /ativarvip <Key>");
+            sender.sendMessage(plugin.getMessageUtils().getMessage("active_key"));
             return false;
         }
 
@@ -34,9 +35,20 @@ public class ActiveVipCommand implements CommandExecutor {
             plugin.getKeysService().activeKey(keyVip, (Player) sender);
             return true;
         }  else {
-            sender.sendMessage(plugin.getMessageUtils().getMessage("key_not_found"));
-            return false;
-
+            try {
+                Long convert = KeysUtils.convert(args[0]);
+                keyVip = plugin.getKeysService().getKeyVip(String.valueOf(convert));
+                if (keyVip != null) {
+                    plugin.getKeysService().activeKey(keyVip, (Player) sender);
+                    return true;
+                } else {
+                    sender.sendMessage(plugin.getMessageUtils().getMessage("key_not_found"));
+                    return false;
+                }
+            } catch (IllegalAccessException e) {
+                sender.sendMessage(plugin.getMessageUtils().getMessage("key_not_found"));
+                return false;
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 package guardianVip.commands;
 
 import guardianVip.GuardianVips;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -17,6 +18,19 @@ public class PlayerCommands implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+
+        if (args.length == 1) {
+            if (args[0].equals("reload") && sender.hasPermission("guardianvips.reload")) {
+                plugin.getYamlVipConfig().reload();
+                plugin.getMessageConfig().reload();
+                plugin.getKeysVips().reload();
+                plugin.getYamlConfig().reload();
+                plugin.getVipService().loadVipListOnFile();
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "GuardianVips reload config success!"));
+                return false;
+            }
+            return false;
+        }
         sender.sendMessage(plugin.getMessageUtils().getMessage("player_help"));
         return false;
     }

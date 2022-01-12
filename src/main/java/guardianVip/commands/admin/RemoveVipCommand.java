@@ -22,7 +22,7 @@ public class RemoveVipCommand implements CommandExecutor {
         if (sender.hasPermission("guardianvips.removevip") || sender.hasPermission("guardianvips.admin")) {
 
             if (args.length != 2) {
-                sender.sendMessage("Command error, use: /removevip <Player> <VIP>");
+                sender.sendMessage(plugin.getMessageUtils().replaceColorSimbol("&cCommand error, use: /removevip <Player> <VIP>"));
                 return true;
             }
 
@@ -39,8 +39,10 @@ public class RemoveVipCommand implements CommandExecutor {
             }
 
             plugin.getVipActiveService().removeVip(vip, player);
+            plugin.getUserService().saveUserVip(player);
 
-            player.sendMessage("Sua vip " + vip.getName() + " foi removida");
+            player.sendMessage(plugin.getMessageUtils().getMessage("player_vip_removed").replace("%vip%", vip.getName()));
+            sender.sendMessage(plugin.getMessageUtils().getMessage("vip_removed"));
 
         } else {
             sender.sendMessage(plugin.getMessageUtils().getMessage("player_not_found"));

@@ -13,4 +13,14 @@ public class KeysUtils {
         }
         return stringKey;
     }
+
+    public static Long convert(String key) throws IllegalAccessException {
+        String stringKey = "";
+        char[] chars = key.toString().toCharArray();
+        for (char code : chars) {
+            String letter  = String.valueOf(KeyEnums.valueOf(Character.toString(code)).getCode());
+            stringKey = stringKey.concat(letter);
+        }
+        return Long.valueOf(stringKey);
+    }
 }

@@ -37,6 +37,7 @@ public class UserService {
                 userVip = create(player);
             }
         }
+        plugin.getVipActiveService().removeVipExpired(userVip, player);
         return userVip;
     }
 
@@ -51,6 +52,18 @@ public class UserService {
             userVipRepository.saveUserVip(userOffline);
             userVipRepository.unloadUserVip(userOffline);
         });
+    }
+
+    public void saveUserVip(Player player) {
+        userVipRepository.saveUserVip(player.getName());
+    }
+
+    public void saveUserVip(String player) {
+        userVipRepository.saveUserVip(player);
+    }
+
+    public void removeUserVipOnMap(String name) {
+        userVipRepository.removeUserVipOnMap(name);
     }
 
     public UserVip getUserVip(Player player) {

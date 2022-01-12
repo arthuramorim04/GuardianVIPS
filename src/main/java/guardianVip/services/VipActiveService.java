@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,8 +31,9 @@ public class VipActiveService {
         setVipOrAddDays(userVip, vipActive, days, hours, minutes);
         executeActivationCommands(vip, player);
 
-        String activateMessage = vip.getBroadcastActivation().replace("%player%", player.getName());
+        String activateMessage = vip.getBroadcastActivation().replace("%player%", player.getName()).replace("%vip%", vip.getName());
         sendActiveVipMessage(activateMessage);
+        plugin.getUserService().saveUserVip(player);
         return vipActive;
     }
 
@@ -58,14 +60,20 @@ public class VipActiveService {
             vipInActivatedList.addHours(hours);
             vipInActivatedList.addMinutes(minutes);
         }
+        plugin.getUserService().saveUserVip(userVip.getName());
     }
 
     public void removeVipExpired(UserVip userVip, Player player) {
+        List<VipActive> vipsToRemove = new ArrayList<>();
         userVip.getVipsActivated().forEach(vipActive -> {
             if (vipActive.getExpiredAt().isBefore(LocalDateTime.now())) {
-                removeVip(vipActive.getVip(), player);
+                vipsToRemove.add(vipActive);
             }
         });
+
+        vipsToRemove.forEach(vipActive -> removeVip(vipActive.getVip(), player));
+
+        plugin.getUserService().saveUserVip(userVip.getName());
     }
 
     public void removeVip(Vip vip, Player player) {
@@ -92,7 +100,6 @@ public class VipActiveService {
     }
 
     private void sendActiveVipMessage(String message){
-
         Bukkit.getOnlinePlayers().forEach(player -> plugin.getMessageUtils().sendTitle(player, message));
     }
 
@@ -103,6 +110,7 @@ public class VipActiveService {
                 List<VipActive> vipsToRemove = getVipsToRemove(userVip);
                 vipsToRemove.forEach(vipExpired -> removeVipExpired(userVip, playerExact));
             }
+            plugin.getUserService().saveUserVip(userVip.getName());
         });
     }
 

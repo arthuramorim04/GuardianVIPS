@@ -52,7 +52,6 @@ public class GuardianVips extends JavaPlugin {
     public void onLoad() {
         super.onLoad();
 
-        //recarrega vips
     }
 
     @Override
