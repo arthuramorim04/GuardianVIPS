@@ -20,21 +20,19 @@ public class UserVipRepository {
     private Map<String, UserVip> userVips = new HashMap<>();
     private GuardianVips plugin;
     private Gson gson = new Gson();
-    private SQL sql;
 
     public UserVipRepository(GuardianVips plugin) {
         this.plugin = plugin;
-        sql = plugin.getDatabaseManager().getSql();
         initTables();
     }
 
     public UserVip selectById(String uuid) {
         PreparedStatement ps;
-
+        SQL sql = plugin.getDatabaseManager().getSql();
         try {
             ps = sql.prepareStatement("select name, vipActivated " +
                     "from guardianvips " +
-                    "where uuid = "+uuid+";");
+                    "where uuid = '"+uuid+"';");
 
             ResultSet result = ps.executeQuery();
             UserVip userVip = new UserVip();
@@ -68,7 +66,7 @@ public class UserVipRepository {
     public void loadAll() {
 
         PreparedStatement ps;
-
+        SQL sql = plugin.getDatabaseManager().getSql();
         try {
             ps = sql.prepareStatement("select name, uuid, vipActivated " +
                     "from guardianvips;");
@@ -101,11 +99,12 @@ public class UserVipRepository {
 
     public UserVip saveUserVip(UserVip userVip) {
         JsonElement vipsActivated = gson.toJsonTree(userVip.getVipsActivated());
+        SQL sql = plugin.getDatabaseManager().getSql();
         try {
             PreparedStatement ps;
             ps = sql.prepareStatement("update guardianvips " +
-                    "set vipsActivated = '"+ vipsActivated + "' " +
-                    "where uuid = " + userVip.getUuid() + ";");
+                    "set vipActivated = '"+ vipsActivated + "' " +
+                    "where uuid = '" + userVip.getUuid() + "';");
 
             ps.execute();
             ps.close();
@@ -120,9 +119,10 @@ public class UserVipRepository {
     public UserVip create(UserVip userVip) {
         JsonElement vipsActivated = gson.toJsonTree(userVip.getVipsActivated());
         try {
+            SQL sql = plugin.getDatabaseManager().getSql();
             PreparedStatement ps;
             ps = sql.prepareStatement("insert into guardianvips (name, uuid, vipsActivated) " +
-                    "values(" +userVip.getName() + "," + userVip.getUuid() + "," + vipsActivated + ")");
+                    "values('" +userVip.getName() + "','" + userVip.getUuid() + "','" + vipsActivated + "')");
 
             ps.execute();
             ps.close();
@@ -148,7 +148,7 @@ public class UserVipRepository {
     }
 
     private void initTables() {
-        sql = plugin.getDatabaseManager().getSql();
+        SQL sql = plugin.getDatabaseManager().getSql();
         try {
             PreparedStatement preparedStatement = sql.prepareStatement("create table if not exists guardianvips (name varchar(255) not null, uuid varchar(255) not null, vipActivated longtext)");
             preparedStatement.execute();
