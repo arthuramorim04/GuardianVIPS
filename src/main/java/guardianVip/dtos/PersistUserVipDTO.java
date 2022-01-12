@@ -2,6 +2,7 @@ package guardianVip.dtos;
 
 import guardianVip.dtos.interfaces.ConvertDTO;
 import guardianVip.entity.UserVip;
+import guardianVip.entity.VipActive;
 import lombok.Getter;
 import lombok.Setter;
 

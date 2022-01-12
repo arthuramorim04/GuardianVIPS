@@ -7,8 +7,10 @@ messages:
 # 1 - Apenas numeros
 # 2 - Apenas letras
 keyType: 1
+
+defaultWorld: "world"
 storage:
-  user: 'mysql'
+  user: 'root'
   pass: '123'
   host: 'localhost'
-  db: 'plugins'
+  db: 'dev'

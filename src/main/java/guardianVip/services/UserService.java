@@ -1,49 +1,60 @@
 package guardianVip.services;
 
+import guardianVip.GuardianVips;
 import guardianVip.entity.UserVip;
 import guardianVip.repositories.UserVipRepository;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class UserService {
 
     private UserVipRepository userVipRepository;
+    private GuardianVips plugin;
 
-    public UserService(UserVipRepository userVipRepository) {
-        this.userVipRepository = userVipRepository;
+    public UserService(GuardianVips plugin) {
+        this.plugin = plugin;
+        this.userVipRepository = new UserVipRepository(plugin);
     }
 
     public UserVip create(Player player) {
         UserVip userVip = new UserVip();
         userVip.setName(player.getName());
         userVip.setUuid(player.getUniqueId());
-        addUserToMap(userVip);
+        userVipRepository.create(userVip);
         return userVip;
     }
 
     public UserVip loadUserVip(Player player) {
-        UserVip userVip = userVipRepository.seletcByName(player.getName());
+        UserVip userVip = userVipRepository.seletcByName(player);
 
         if (userVip == null ){
-            //busca no banco de dados
-            // userVip = retorno do banco
+             userVip = userVipRepository.selectById(player.getUniqueId().toString());
             if (userVip == null) {
                 userVip = create(player);
             }
-            addUserToMap(userVip);
         }
-
         return userVip;
     }
 
-    public void addUserToMap(UserVip userVip) {
-        userVipRepository.getAll().put(userVip.getName(), userVip);
+    public Map<String, UserVip> loadAllUserVip() {
+        userVipRepository.loadAll();
+        return userVipRepository.getAll();
     }
 
-    public UserVip getUserVip(String name) {
-        return userVipRepository.seletcByName(name);
+    public void removeOfflineUserVip() {
+        List<String> usersOffline = userVipRepository.getAll().keySet().stream().filter(user -> !Bukkit.getPlayerExact(user).isOnline()).collect(Collectors.toList());
+        usersOffline.forEach(userOffline -> {
+            userVipRepository.saveUserVip(userOffline);
+            userVipRepository.unloadUserVip(userOffline);
+        });
+    }
+
+    public UserVip getUserVip(Player player) {
+        return userVipRepository.seletcByName(player);
     }
 
     public Map<String, UserVip> getUserVipMap() {

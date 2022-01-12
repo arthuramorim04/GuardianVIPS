@@ -5,9 +5,8 @@ import java.util.Map;
 
 public interface RepositoryInterface<T, K> {
 
-    T selectById(Long id);
+    T selectById(String uuid);
     Map<K,T> getAll();
-    T seletcByName(K key);
 
 
 }

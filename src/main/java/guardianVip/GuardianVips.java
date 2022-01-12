@@ -33,20 +33,17 @@ public class GuardianVips extends JavaPlugin {
 
     private MessageUtils messageUtils;
 
-    private UserVipRepository userVipRepository;
-
     private RemoveExpiredVips removeExpiredVips;
 
     @Override
     public void onEnable() {
         super.onEnable();
         initConfig();
-        initRepositories();
+        initDatabase();
+        openConnection();
         initServices();
         initCommands();
         initListeners();
-//        initDatabase();
-//        openConnection();
         initialLoad();
         initTasks();
     }
@@ -72,14 +69,10 @@ public class GuardianVips extends JavaPlugin {
         keysVips = new YamlConfig(this, "keys");
     }
 
-    private void initRepositories() {
-        userVipRepository = new UserVipRepository();
-    }
-
     private void initServices() {
         vipService = new VipService(this);
         vipActiveService = new VipActiveService(this);
-        userService = new UserService(this.userVipRepository);
+        userService = new UserService(this);
         messageUtils = new MessageUtils(this);
         keysService = new KeysService(this);
     }

@@ -15,6 +15,7 @@ public class UserVip {
     private UUID uuid;
     private List<VipActive> vipsActivated = new ArrayList<>();
 
+
     public String getName() {
         return name;
     }

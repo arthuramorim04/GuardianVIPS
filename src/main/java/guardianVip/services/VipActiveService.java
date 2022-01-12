@@ -23,11 +23,11 @@ public class VipActiveService {
         VipActive vipActive = new VipActive(vip);
         boolean isActive = vipActive.activeVip(days, hours, minutes);
         if (!isActive) return null;
-        UserVip userVip = plugin.getUserService().getUserVip(player.getName());
+        UserVip userVip = plugin.getUserService().getUserVip(player);
         if (userVip == null) {
             userVip = plugin.getUserService().create(player);
         }
-        setVipOrAddDays(userVip, vipActive, days);
+        setVipOrAddDays(userVip, vipActive, days, hours, minutes);
         executeActivationCommands(vip, player);
 
         String activateMessage = vip.getBroadcastActivation().replace("%player%", player.getName());
@@ -35,7 +35,17 @@ public class VipActiveService {
         return vipActive;
     }
 
-    public void setVipOrAddDays(UserVip userVip, VipActive vipActive, Long days) {
+    public void addVipToAllUserVip(Vip vip, Long days, Long hours, Long minutes) {
+        plugin.getUserService().loadAllUserVip();
+        plugin.getUserService().getUserVipMap().values().forEach(userVip -> {
+            VipActive vipActive = new VipActive(vip);
+            setVipOrAddDays(userVip, vipActive, days, hours, minutes);
+        });
+
+        plugin.getUserService().removeOfflineUserVip();
+    }
+
+    public void setVipOrAddDays(UserVip userVip, VipActive vipActive, Long days, Long hours, Long minutes) {
         VipActive vipInActivatedList = userVip.getVipsActivated()
                 .stream().filter(vipActivated ->
                         vipActivated.getVip().getName().equals(vipActive.getVip().getName())
@@ -45,6 +55,8 @@ public class VipActiveService {
             return;
         } else {
             vipInActivatedList.addDays(days);
+            vipInActivatedList.addHours(hours);
+            vipInActivatedList.addMinutes(minutes);
         }
     }
 
@@ -57,7 +69,7 @@ public class VipActiveService {
     }
 
     public void removeVip(Vip vip, Player player) {
-        UserVip userVip = plugin.getUserService().getUserVip(player.getName());
+        UserVip userVip = plugin.getUserService().getUserVip(player);
         List<VipActive> vipsToRemove = userVip.getVipsActivated().stream()
                 .filter(vipActive -> vipActive.getVip().equals(vip)).collect(Collectors.toList());
         vipsToRemove.forEach(vipToRemove -> {
