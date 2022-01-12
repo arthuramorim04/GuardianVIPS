@@ -10,6 +10,7 @@ public class KeyVip {
     private Long minutes;
     private Long remainingUse;
     private boolean isEnable;
+    private String player;
 
     public KeyVip() {
     }
@@ -23,6 +24,18 @@ public class KeyVip {
         this.minutes = minutes;
         this.remainingUse = remainingUse;
         this.isEnable = isEnable;
+    }
+
+    public KeyVip(Long key, String keyString, String vipName, Long days, Long hours, Long minutes, Long remainingUse, boolean isEnable, String player) {
+        this.key = key;
+        this.keyString = keyString;
+        this.vipName = vipName;
+        this.days = days;
+        this.hours = hours;
+        this.minutes = minutes;
+        this.remainingUse = remainingUse;
+        this.isEnable = isEnable;
+        this.player = player;
     }
 
     public Long getKey() {
@@ -87,5 +100,13 @@ public class KeyVip {
 
     public void setRemainingUse(Long remainingUse) {
         this.remainingUse = remainingUse;
+    }
+
+    public String getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(String player) {
+        this.player = player;
     }
 }

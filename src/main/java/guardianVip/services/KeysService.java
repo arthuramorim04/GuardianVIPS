@@ -8,6 +8,8 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class KeysService {
 
@@ -17,9 +19,8 @@ public class KeysService {
         this.plugin = plugin;
     }
 
-    public KeyVip generate(Vip vip, Long days, Long hours, Long minutes, Long usage) {
-        try {
-            KeyVip keyVip = create(vip, days, hours, minutes, usage);
+    public KeyVip generate(Vip vip, Long days, Long hours, Long minutes, Long usage, String player) {        try {
+            KeyVip keyVip = create(vip, days, hours, minutes, usage, player);
             saveKey(keyVip);
             return keyVip;
         } catch (Exception e) {
@@ -42,7 +43,7 @@ public class KeysService {
         }
     }
 
-    public KeyVip create(Vip vip, Long days, Long hours, Long minutes, Long remainingUse) {
+    public KeyVip create(Vip vip, Long days, Long hours, Long minutes, Long remainingUse, String player) {
         long key = System.currentTimeMillis();
         KeyVip keyVip = new KeyVip();
         keyVip.setKey(key);
@@ -60,8 +61,10 @@ public class KeysService {
         keyVip.setMinutes(minutes);
         keyVip.setRemainingUse(remainingUse);
         keyVip.setEnable(true);
+        keyVip.setPlayer(player);
         return keyVip;
     }
+
 
     public void deleteKey(String key) {
         try {
@@ -85,7 +88,8 @@ public class KeysService {
             long minutes = section.getLong("minutes");
             long remainingUse = section.getLong("remainingUse");
             boolean isEnable = section.getBoolean("isEnable");
-            KeyVip keyVip = new KeyVip(keyNumeric, keyAlpha, vipName, days,hours, minutes,remainingUse, isEnable);
+            String player = section.getString("player");
+            KeyVip keyVip = new KeyVip(keyNumeric, keyAlpha, vipName, days,hours, minutes,remainingUse, isEnable, player);
             return keyVip;
         }catch (Exception e) {
             return null;
@@ -106,7 +110,17 @@ public class KeysService {
         section.set("minutes", keyVip.getMinutes());
         section.set("remainingUse", keyVip.getRemainingUse());
         section.set("isEnable", keyVip.isEnable());
+        section.set("player", keyVip.getPlayer());
 
         plugin.getKeysVips().getConfigFile().save(plugin.getKeysVips().getConfig());
+    }
+
+    public List<KeyVip> getAllKeys() {
+        List<KeyVip> keyVips = new ArrayList<>();
+        plugin.getKeysVips().getConfigFile().getKeys(true).forEach(key -> {
+            KeyVip keyVip = getKeyVip(key);
+            keyVips.add(keyVip);
+        });
+        return keyVips;
     }
 }

@@ -94,6 +94,7 @@ public class VipActiveService {
     }
 
     private void executeRemoveCommands(Vip vip, Player player) {
+        vip = plugin.getVipService().getVipByName(vip.getName());
         vip.getCommandsRemovelVip().forEach(command -> {
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("%player%", player.getName()));
         });

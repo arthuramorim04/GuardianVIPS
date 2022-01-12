@@ -3,18 +3,20 @@ version: 1.0
 main: guardianVip.GuardianVips
 
 commands:
-  guardianvips:
+  guardianvip:
     aliases: "gvips"
-  addvip:
-  gerarkey:
-  removekey:
-  removevip:
-  activevip:
+  gerarkeyvip:
+  enviarkeyvip:
+  listarkeysvip:
+  removerkeyvip:
+  ativarvip:
     aliases:
       - "usekey"
       - "usarkey"
-  viptime:
+  darvip:
+  removervip:
+  tempovip:
     aliases:
-      - "tempovip"
+      - "viptime"
   listvip:
   removeviptime:

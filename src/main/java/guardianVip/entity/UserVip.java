@@ -15,7 +15,6 @@ public class UserVip {
     private UUID uuid;
     private List<VipActive> vipsActivated = new ArrayList<>();
 
-
     public String getName() {
         return name;
     }
@@ -39,4 +38,5 @@ public class UserVip {
     public void setVipsActivated(List<VipActive> vipsActivated) {
         this.vipsActivated = vipsActivated;
     }
+
 }

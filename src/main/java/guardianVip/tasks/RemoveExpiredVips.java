@@ -22,8 +22,9 @@ public class RemoveExpiredVips extends BukkitRunnable {
     }
 
     private void removeExpiredTask() {
-        System.out.println("Verificando vips expiradas.");
+        System.out.println("Verificando vips expirando.");
         plugin.getVipActiveService().removeExpiredVipsIfN();
+        // verificar quem tem menos de 24h e esta online
     }
 
     @Override

@@ -31,7 +31,13 @@ public class PlayerCommands implements CommandExecutor {
             }
             return false;
         }
+        if (args.length == 0) {
         sender.sendMessage(plugin.getMessageUtils().getMessage("player_help"));
+        if (sender.hasPermission("guardianvips.admin.help")) {
+            sender.sendMessage(plugin.getMessageUtils().getMessage("admin_help"));
+        }
+
+        }
         return false;
     }
 

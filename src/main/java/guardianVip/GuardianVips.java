@@ -39,8 +39,12 @@ public class GuardianVips extends JavaPlugin {
     public void onEnable() {
         super.onEnable();
         initConfig();
-        initDatabase();
-        openConnection();
+        try {
+            initDatabase();
+            openConnection();
+        } catch (Exception e) {
+            onDisable();
+        }
         initServices();
         initCommands();
         initListeners();
@@ -85,15 +89,18 @@ public class GuardianVips extends JavaPlugin {
     }
 
     private void initCommands() {
-        getCommand("guardianvips").setExecutor(new PlayerCommands(this));
-        getCommand("addvip").setExecutor(new AddVipCommand(this));
-        getCommand("gerarkey").setExecutor(new KeyGenerateCommand(this));
-
-        getCommand("removekey").setExecutor(new RemoveKeyCommand(this));
-        getCommand("removevip").setExecutor(new RemoveVipCommand(this));
-        getCommand("activevip").setExecutor(new ActiveVipCommand(this));
-        getCommand("viptime").setExecutor(new VipTimeCommand(this));
+        getCommand("guardianvip").setExecutor(new PlayerCommands(this));
+        getCommand("gerarkeyvip").setExecutor(new KeyGenerateCommand(this));
+        getCommand("enviarkeyvip").setExecutor(new KeySendGenerateCommand(this));
+        getCommand("removerkeyvip").setExecutor(new RemoveKeyCommand(this));
+        getCommand("listarkeysvip").setExecutor(new ListKeysCommand(this));
+        getCommand("ativarvip").setExecutor(new ActiveVipCommand(this));
+        getCommand("darvip").setExecutor(new AddVipCommand(this));
+        getCommand("removervip").setExecutor(new RemoveVipCommand(this));
+        getCommand("tempovip").setExecutor(new VipTimeCommand(this));
         getCommand("listvip").setExecutor(new ListVipCommand(this));
+
+
     }
 
     private void initDatabase() {

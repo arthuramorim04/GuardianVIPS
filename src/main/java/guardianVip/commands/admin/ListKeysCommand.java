@@ -3,46 +3,42 @@ package guardianVip.commands.admin;
 import guardianVip.GuardianVips;
 import guardianVip.entity.KeyVip;
 import guardianVip.entity.Vip;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
-public class KeyGenerateCommand implements CommandExecutor {
+import java.util.List;
+
+public class ListKeysCommand implements CommandExecutor {
     private GuardianVips plugin;
 
-    public KeyGenerateCommand(GuardianVips plugin) {
+    public ListKeysCommand(GuardianVips plugin) {
         this.plugin = plugin;
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
-        if (sender.hasPermission("guardianvips.key.generate")) {
-            if (args.length != 5) {
-                sender.sendMessage("Use /keygenerate <Vip> <Days> <NumUsage>");
+        if (sender.hasPermission("guardianvips.key.list")) {
+            if (args.length != 1) {
+                sender.sendMessage("Use /listarkeysvip");
                 return false;
             }
-            try {
-
-                Vip vipByName = plugin.getVipService().getVipByName(args[0]);
-                if (vipByName != null) {
-                    Long daysVip = Long.valueOf(args[1]);
-                    Long hours = Long.valueOf(args[2]);
-                    Long minutes = Long.valueOf(args[3]);
-                    Long remainingUse = Long.valueOf(args[4]);
-
-                    KeyVip keyVip = plugin.getKeysService().generate(vipByName, daysVip, hours, minutes, remainingUse, "*");
+            try{
+                List<KeyVip> allKeys = plugin.getKeysService().getAllKeys();
+                allKeys.forEach(keyVip -> {
                     sender.sendMessage("Key:" +
                             "\nVip:" + keyVip.getVipName() +
                             "\nTime" + keyVip.getDays() + "days " + keyVip.getHours() + " hours " + keyVip.getMinutes() + " minutes" +
                             "\nkey: " + keyVip.getKey() +
                             "\nkey alpha: " + keyVip.getKeyString() +
                             "\nremainingUse: " + keyVip.getRemainingUse() +
-                            "\nactive: " + keyVip.isEnable());
-                } else {
-                    sender.sendMessage(plugin.getMessageUtils().getMessage("vip_not_found"));
-                }
+                            "\nactive: " + keyVip.isEnable() +
+                            "\nOwner: " + keyVip.getPlayer());
+                });
             } catch (Exception e) {
-                sender.sendMessage("Use /keygenerate <Vip> <Days> <NumUsage>");
+                sender.sendMessage("Use /listarkeysvip");
                 return false;
             }
 

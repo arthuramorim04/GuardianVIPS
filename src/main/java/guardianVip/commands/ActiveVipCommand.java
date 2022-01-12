@@ -32,14 +32,14 @@ public class ActiveVipCommand implements CommandExecutor {
 
         KeyVip keyVip = plugin.getKeysService().getKeyVip(args[0]);
         if (keyVip != null) {
-            plugin.getKeysService().activeKey(keyVip, (Player) sender);
+            activeKey(keyVip, sender, plugin);
             return true;
         }  else {
             try {
                 Long convert = KeysUtils.convert(args[0]);
                 keyVip = plugin.getKeysService().getKeyVip(String.valueOf(convert));
                 if (keyVip != null) {
-                    plugin.getKeysService().activeKey(keyVip, (Player) sender);
+                    activeKey(keyVip, sender, plugin);
                     return true;
                 } else {
                     sender.sendMessage(plugin.getMessageUtils().getMessage("key_not_found"));
@@ -49,6 +49,12 @@ public class ActiveVipCommand implements CommandExecutor {
                 sender.sendMessage(plugin.getMessageUtils().getMessage("key_not_found"));
                 return false;
             }
+        }
+    }
+
+    private void activeKey(KeyVip keyVip, CommandSender sender, GuardianVips plugin) {
+        if (keyVip.getPlayer().equals(sender.getName()) || keyVip.getPlayer().equals("*")) {
+            plugin.getKeysService().activeKey(keyVip, (Player) sender);
         }
     }
 }

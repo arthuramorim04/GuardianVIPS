@@ -3,10 +3,16 @@ messages:
   vipRemoved: "seu vip %vip% foi removido por um staff"
 
 
-# Tipo de chave de ativacao
-# 1 - Apenas numeros
-# 2 - Apenas letras
-keyType: 1
+permissions:
+  - 'guardianvips.addvip'
+  - 'guardianvips.addtimevip'
+  - 'guardianvips.key.generate'
+  - 'guardianvips.key.list'
+  - 'guardianvips.removevip'
+  - 'guardianvips.removevip'
+  - 'guardianvips.removevip'
+  - 'guardianvips.reload'
+  - 'guardianvips.showvips'
 
 defaultWorld: "world"
 storage:
