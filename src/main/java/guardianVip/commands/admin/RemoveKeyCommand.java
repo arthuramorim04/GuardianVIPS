@@ -16,12 +16,17 @@ public class RemoveKeyCommand implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
 
         if (commandSender.hasPermission("guardianvips.removevip") || commandSender.hasPermission("guardianvips.admin")){
-            plugin.getKeysService().deleteKey(args[0]);
-            commandSender.sendMessage(plugin.getMessageUtils().getMessage("removed_key"));
+            boolean isRemoved = plugin.getKeysService().deleteKey(args[0]);
+            if (isRemoved) {
+                commandSender.sendMessage(plugin.getMessageUtils().getMessage("removed_key"));
+                return true;
+            } else {
+                commandSender.sendMessage(plugin.getMessageUtils().getMessage("key_not_found"));
+                return true;
+            }
         }  else {
             commandSender.sendMessage(plugin.getMessageUtils().getMessage("no_permission"));
         }
-        commandSender.sendMessage(this.getClass().getName());
         return false;
     }
 }

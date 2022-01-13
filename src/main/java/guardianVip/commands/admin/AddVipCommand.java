@@ -28,17 +28,18 @@ public class AddVipCommand implements CommandExecutor {
 
             Vip vip = plugin.getVipService().getVipByName(args[1]);
             if (vip == null) {
-                sender.sendMessage(plugin.getMessageUtils().replaceColorSimbol("&cVip not found"));
+                sender.sendMessage(plugin.getMessageUtils().getMessage("vip_not_found"));
                 return true;
             }
 
             Player player = Bukkit.getPlayerExact(args[0]);
             if (player == null) {
-                sender.sendMessage(plugin.getMessageUtils().replaceColorSimbol("&cPlayer not found"));
+                sender.sendMessage(plugin.getMessageUtils().getMessage("player_not_found"));
                 return true;
             }
 
             try {
+                // ver se user estra off, se estiver buscar no banco add a vip salvar e remover
                 plugin.getVipActiveService().activeVip(vip, player, Long.valueOf(args[2]), Long.valueOf(args[3]), Long.valueOf(args[4]));
                 return true;
             } catch (Exception e) {

@@ -66,13 +66,14 @@ public class KeysService {
     }
 
 
-    public void deleteKey(String key) {
+    public boolean deleteKey(String key) {
         try {
             ConfigurationSection section = plugin.getKeysVips().getConfigFile().getConfigurationSection(key);
             section.set("isEnable", false);
             plugin.getKeysVips().getConfigFile().save(plugin.getKeysVips().getConfig());
+            return true;
         } catch (Exception e) {
-            return;
+            return false;
         }
     }
 
