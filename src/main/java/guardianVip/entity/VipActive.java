@@ -82,14 +82,14 @@ public class VipActive {
     }
 
     public Long getDays() {
-        return ChronoUnit.DAYS.between(activationDate, expiredAt);
+        return ChronoUnit.DAYS.between(LocalDateTime.now(), expiredAt);
     }
 
     public Long getHours() {
-        return (ChronoUnit.MINUTES.between(activationDate, expiredAt) % 1440)/60;
+        return (ChronoUnit.MINUTES.between(LocalDateTime.now(), expiredAt) % 1440)/60;
     }
 
     public Long getMinutes() {
-        return (ChronoUnit.MINUTES.between(activationDate, expiredAt) % 1440)%60;
+        return (ChronoUnit.MINUTES.between(LocalDateTime.now(), expiredAt) % 1440)%60;
     }
 }
