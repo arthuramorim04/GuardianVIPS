@@ -39,12 +39,8 @@ public class GuardianVips extends JavaPlugin {
     public void onEnable() {
         super.onEnable();
         initConfig();
-        try {
-            initDatabase();
-            openConnection();
-        } catch (Exception e) {
-            onDisable();
-        }
+        initDatabase();
+        openConnection();
         initServices();
         initCommands();
         initListeners();
@@ -104,12 +100,17 @@ public class GuardianVips extends JavaPlugin {
     }
 
     private void initDatabase() {
+        String type = yamlConfig.getConfigFile().getString("storage.type");
         String user = yamlConfig.getConfigFile().getString("storage.user");
         String pass = yamlConfig.getConfigFile().getString("storage.pass");
         String host = yamlConfig.getConfigFile().getString("storage.host");
         String db = yamlConfig.getConfigFile().getString("storage.db");
         databaseManager = new DatabaseManager(this);
-        databaseManager.initMySQL(host, db, user, pass);
+        if (type.equals("SQLite")) {
+            databaseManager.initSQL(type);
+        } else {
+            databaseManager.initMySQL(host, db, user, pass);
+        }
     }
 
     private void initTasks() {

@@ -79,7 +79,7 @@ public class VipActiveService {
     public void removeVip(Vip vip, Player player) {
         UserVip userVip = plugin.getUserService().getUserVip(player);
         List<VipActive> vipsToRemove = userVip.getVipsActivated().stream()
-                .filter(vipActive -> vipActive.getVip().equals(vip)).collect(Collectors.toList());
+                .filter(vipActive -> vipActive.getVip().getName().equals(vip.getName())).collect(Collectors.toList());
         vipsToRemove.forEach(vipToRemove -> {
             int index = userVip.getVipsActivated().indexOf(vipToRemove);
             userVip.getVipsActivated().remove(index);

@@ -45,7 +45,7 @@ public class ActiveVipCommand implements CommandExecutor {
                     sender.sendMessage(plugin.getMessageUtils().getMessage("key_not_found"));
                     return false;
                 }
-            } catch (IllegalAccessException e) {
+            } catch (Exception e) {
                 sender.sendMessage(plugin.getMessageUtils().getMessage("key_not_found"));
                 return false;
             }

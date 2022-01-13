@@ -152,7 +152,12 @@ public class UserVipRepository {
     private void initTables() {
         SQL sql = plugin.getDatabaseManager().getSql();
         try {
-            PreparedStatement preparedStatement = sql.prepareStatement("create table if not exists guardianvips (name varchar(255) not null, uuid varchar(255) not null, vipActivated longtext)");
+            PreparedStatement preparedStatement;
+            if (plugin.getYamlConfig().getConfigFile().getString("storage.type").equalsIgnoreCase("MYSQL")) {
+            preparedStatement = sql.prepareStatement("create table if not exists "+plugin.getYamlConfig().getConfigFile().getString("storage.db")+".guardianvips (name varchar(255) not null, uuid varchar(255) not null, vipActivated longtext)");
+            } else {
+                preparedStatement = sql.prepareStatement("create table if not exists guardianvips (name varchar(255) not null, uuid varchar(255) not null, vipActivated longtext)");
+            }
             preparedStatement.execute();
             preparedStatement.close();
         } catch (SQLException e) {

@@ -16,6 +16,7 @@ permissions:
 
 defaultWorld: "world"
 storage:
+  type: "SQLite"
   user: 'root'
   pass: '123'
   host: 'localhost'
