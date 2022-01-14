@@ -26,7 +26,7 @@ public class PlayerListener implements Listener {
         if (e.getPlayer().hasPlayedBefore()) {
             plugin.getUserService().loadUserVip(e.getPlayer());
         } else {
-            plugin.getUserService().create(e.getPlayer());
+            plugin.getUserService().create(e.getPlayer().getName(), e.getPlayer().getUniqueId());
         }
 
     }

@@ -38,6 +38,7 @@ public class KeyVip {
         this.player = player;
     }
 
+
     public Long getKey() {
         return key;
     }

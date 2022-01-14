@@ -1,8 +1,10 @@
 package guardianVip.services;
 
 import guardianVip.GuardianVips;
+import guardianVip.dtos.ActiveVipDTO;
 import guardianVip.entity.KeyVip;
 import guardianVip.entity.Vip;
+import guardianVip.utils.ActiveVipType;
 import guardianVip.utils.KeysUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -31,7 +33,8 @@ public class KeysService {
     public void activeKey(KeyVip keyVip, Player player) {
         if (keyVip != null && keyVip.isEnable() && keyVip.getRemainingUse() > 0) {
             Vip vip = plugin.getVipService().getVipByName(keyVip.getVipName());
-            plugin.getVipActiveService().activeVip(vip, player, keyVip.getDays(), keyVip.getHours(), keyVip.getMinutes());
+            ActiveVipDTO activeVipDTO = new ActiveVipDTO(vip, player, keyVip.getDays(), keyVip.getHours(), keyVip.getMinutes(), ActiveVipType.ADD);
+            plugin.getVipActiveService().activeVip(activeVipDTO);
             keyVip.setRemainingUse(keyVip.getRemainingUse() - 1);
             ConfigurationSection section = plugin.getKeysVips().getConfigFile().getConfigurationSection(String.valueOf(keyVip.getKey()));
             section.set("remainingUse", keyVip.getRemainingUse());

@@ -34,14 +34,20 @@ public class RemoveVipCommand implements CommandExecutor {
 
             Player player = Bukkit.getPlayerExact(args[0]);
             if (player == null) {
-                sender.sendMessage(plugin.getMessageUtils().getMessage("player_not_found"));
-                return true;
+                if (plugin.getVipActiveService().removeVipOfflinePlayer(vip, args[0])) {
+                    plugin.getUserService().saveUserVip(args[0]);
+                } else {
+                    sender.sendMessage(plugin.getMessageUtils().getMessage("player_not_found"));
+                    return true;
+                }
+            } else {
+                plugin.getVipActiveService().removeVip(vip, player);
+                plugin.getUserService().saveUserVip(player);
             }
 
-            plugin.getVipActiveService().removeVip(vip, player);
-            plugin.getUserService().saveUserVip(player);
-
-            player.sendMessage(plugin.getMessageUtils().getMessage("player_vip_removed").replace("%vip%", vip.getName()));
+            if (player != null){
+                player.sendMessage(plugin.getMessageUtils().getMessage("player_vip_removed").replace("%vip%", vip.getName()));
+            }
             sender.sendMessage(plugin.getMessageUtils().getMessage("vip_removed"));
 
         } else {

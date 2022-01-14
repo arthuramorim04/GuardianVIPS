@@ -1,9 +1,11 @@
 package guardianVip.commands.admin;
 
 import guardianVip.GuardianVips;
+import guardianVip.dtos.ActiveVipDTO;
 import guardianVip.entity.UserVip;
 import guardianVip.entity.Vip;
 import guardianVip.entity.VipActive;
+import guardianVip.utils.ActiveVipType;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -43,7 +45,8 @@ public class AddVipTimeCommand implements CommandExecutor {
                         sender.sendMessage(plugin.getMessageUtils().getMessage("player_not_found"));
                         return true;
                     }
-                    plugin.getVipActiveService().activeVip(vip, player, Long.valueOf(args[2]), Long.valueOf(args[3]), Long.valueOf(args[4]));
+                    ActiveVipDTO activeVipDTO = new ActiveVipDTO(vip, player, Long.valueOf(args[2]), Long.valueOf(args[3]), Long.valueOf(args[4]), ActiveVipType.PLUS);
+                    plugin.getVipActiveService().activeVip(activeVipDTO);
                     return true;
                 } catch (Exception e) {
                     sender.sendMessage(plugin.getMessageUtils().getMessage("error_add_vip"));

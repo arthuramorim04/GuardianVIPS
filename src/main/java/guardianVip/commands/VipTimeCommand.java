@@ -33,7 +33,10 @@ public class VipTimeCommand implements CommandExecutor {
                 }
                 printVipActiveList(userVip.getVipsActivated(), commandSender);
                 return true;
-            } else {
+            }
+
+        } else {
+            if(args.length == 1){
                 if (commandSender.hasPermission("guardianvips.showvips")) {
                     Player playerExact = Bukkit.getPlayerExact(args[0]);
                     if (playerExact != null) {
@@ -50,9 +53,8 @@ public class VipTimeCommand implements CommandExecutor {
                         return true;
                     }
                 }
+                return false;
             }
-
-        } else {
             commandSender.sendMessage("Command avaliable only players");
         }
         return false;
@@ -60,11 +62,16 @@ public class VipTimeCommand implements CommandExecutor {
 
     private void printVipActiveList(List<VipActive> vipActives, CommandSender sender) {
         vipActives.forEach(vipActive -> {
-            sender.sendMessage(plugin.getMessageUtils().getMessage("viptime_line")
-                    .replace("%vip%", vipActive.getVip().getName())
-                    .replace("%days%",String.valueOf(vipActive.getDays()))
-                    .replace("%hours%", String.valueOf(vipActive.getHours()))
-                    .replace("%minutes%", String.valueOf(vipActive.getMinutes())));
+            if (vipActive.getEternal()) {
+                sender.sendMessage(plugin.getMessageUtils().getMessage("viptime_eternal_line")
+                        .replace("%vip%", vipActive.getVip().getName()));
+            } else {
+                sender.sendMessage(plugin.getMessageUtils().getMessage("viptime_line")
+                        .replace("%vip%", vipActive.getVip().getName())
+                        .replace("%days%",String.valueOf(vipActive.getDays()))
+                        .replace("%hours%", String.valueOf(vipActive.getHours()))
+                        .replace("%minutes%", String.valueOf(vipActive.getMinutes())));
+            }
     });
     }
 }

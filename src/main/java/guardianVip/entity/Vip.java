@@ -11,6 +11,7 @@ import java.util.List;
 public class Vip {
 
     private String name;
+    private String commandGroup;
     private List<String> commandsActivationVip = new ArrayList<>();
     private List<String> commandsRemovelVip = new ArrayList<>();
     private String broadcastActivation;
@@ -47,13 +48,16 @@ public class Vip {
         this.broadcastActivation = broadcastActivation;
     }
 
+    public String getCommandGroup() {
+        return commandGroup;
+    }
+
+    public void setCommandGroup(String commandGroup) {
+        this.commandGroup = commandGroup;
+    }
+
     @Override
     public String toString() {
-        return "Vip{" +
-                "name='" + name + '\'' +
-                ", commandsActivationVip=" + commandsActivationVip +
-                ", commandsRemovelVip=" + commandsRemovelVip +
-                ", broadcastActivation='" + broadcastActivation + '\'' +
-                '}';
+        return "Vip{name='" + name + '}';
     }
 }

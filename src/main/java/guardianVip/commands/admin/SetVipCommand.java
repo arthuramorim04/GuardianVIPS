@@ -4,7 +4,6 @@ import guardianVip.GuardianVips;
 import guardianVip.dtos.ActiveVipDTO;
 import guardianVip.entity.Vip;
 import guardianVip.utils.ActiveVipType;
-import guardianVip.utils.MessageUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -12,11 +11,11 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class AddVipCommand implements CommandExecutor {
+public class SetVipCommand implements CommandExecutor {
 
     private GuardianVips plugin;
 
-    public AddVipCommand(GuardianVips plugin) {
+    public SetVipCommand(GuardianVips plugin) {
         this.plugin = plugin;
     }
 
@@ -28,7 +27,7 @@ public class AddVipCommand implements CommandExecutor {
             if(args.length == 3) {
                 String time = args[2];
                 if (time.equals("eterno")) {
-                    processAddRequest(sender, args, ActiveVipType.ADD, true);
+                    processAddRequest(sender, args, ActiveVipType.SET, true);
                     return true;
                 }
             }
@@ -37,7 +36,7 @@ public class AddVipCommand implements CommandExecutor {
                 sender.sendMessage(plugin.getMessageUtils().replaceColorSimbol("&cCommand error, use: /addvip <Player> <VIP> <Days> <Hours> <Minutes>"));
                 return true;
             } else {
-                return processAddRequest(sender, args, ActiveVipType.ADD, false);
+                return processAddRequest(sender, args, ActiveVipType.SET, false);
             }
 
 

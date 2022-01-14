@@ -26,12 +26,14 @@ public class VipService {
 
             try {
                 String nameVip = configFile.getString(vipKey + ".name");
+                String commandGroup = configFile.getString(vipKey + ".commandGroup");
                 List<String> commandsActivationVip = configFile.getStringList(vipKey + ".commandsActivationVip");
                 List<String> commandsRemoveVip = configFile.getStringList(vipKey + ".commandsRemovelVip");
                 String activationBroadcast = configFile.getString(vipKey + ".activationBroadcast");
 
                 Vip vip = new Vip();
                 vip.setName(nameVip);
+                vip.setCommandGroup(commandGroup);
                 vip.setCommandsActivationVip(commandsActivationVip);
                 vip.setCommandsRemovelVip(commandsRemoveVip);
                 vip.setBroadcastActivation(activationBroadcast);

@@ -14,9 +14,11 @@ commands:
       - "usekey"
       - "usarkey"
   darvip:
+  setvip:
   removervip:
   tempovip:
     aliases:
       - "viptime"
   listvip:
   removeviptime:
+  addTempovipglobal:

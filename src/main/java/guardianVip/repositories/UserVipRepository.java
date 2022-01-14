@@ -7,6 +7,7 @@ import guardianVip.entity.UserVip;
 import guardianVip.entity.VipActive;
 import guardianVip.sql.interfaces.SQL;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.sql.PreparedStatement;
@@ -84,7 +85,11 @@ public class UserVipRepository {
                 userVip.setUuid(UUID.fromString(uuid));
                 userVip.setVipsActivated(vipActivated);
                 if (!(userVip.getName() == null)|| !userVip.getName().equals("")) {
-                    userVips.put(userVip.getName(), userVip);
+                    try {
+                        userVips.put(userVip.getName(), userVip);
+                    } catch (Exception e) {
+                        e.getMessage();
+                    }
                 }
             }
         } catch (SQLException e) {
@@ -146,6 +151,15 @@ public class UserVipRepository {
             return userVips.get(player.getName());
         } else {
             return selectById(String.valueOf(player.getUniqueId()));
+        }
+    }
+
+    public UserVip seletcByName(String player) {
+        if (userVips.containsKey(player)) {
+            return userVips.get(player);
+        } else {
+            OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(player);
+            return selectById(String.valueOf(offlinePlayer.getUniqueId()));
         }
     }
 

@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class UserService {
@@ -20,10 +21,10 @@ public class UserService {
         this.userVipRepository = new UserVipRepository(plugin);
     }
 
-    public UserVip create(Player player) {
+    public UserVip create(String player, UUID uuid) {
         UserVip userVip = new UserVip();
-        userVip.setName(player.getName());
-        userVip.setUuid(player.getUniqueId());
+        userVip.setName(player);
+        userVip.setUuid(uuid);
         userVipRepository.create(userVip);
         return userVip;
     }
@@ -34,7 +35,7 @@ public class UserService {
         if (userVip == null ){
              userVip = userVipRepository.selectById(player.getUniqueId().toString());
             if (userVip == null) {
-                userVip = create(player);
+                userVip = create(player.getName(), player.getUniqueId());
             }
         }
         plugin.getVipActiveService().removeVipExpired(userVip, player);
@@ -47,9 +48,11 @@ public class UserService {
     }
 
     public void removeOfflineUserVip() {
+        userVipRepository.getAll().keySet().forEach(userVip -> {
+            userVipRepository.saveUserVip(userVip);
+        });
         List<String> usersOffline = userVipRepository.getAll().keySet().stream().filter(user -> !Bukkit.getPlayerExact(user).isOnline()).collect(Collectors.toList());
         usersOffline.forEach(userOffline -> {
-            userVipRepository.saveUserVip(userOffline);
             userVipRepository.unloadUserVip(userOffline);
         });
     }
@@ -60,10 +63,18 @@ public class UserService {
 
     public void saveUserVip(String player) {
         userVipRepository.saveUserVip(player);
+        Player playerExact = Bukkit.getPlayerExact(player);
+        if (playerExact == null || !playerExact.isOnline()) {
+            removeUserVipOnMap(player);
+        }
     }
 
     public void removeUserVipOnMap(String name) {
         userVipRepository.removeUserVipOnMap(name);
+    }
+
+    public UserVip getUserVip(String player) {
+        return userVipRepository.seletcByName(player);
     }
 
     public UserVip getUserVip(Player player) {

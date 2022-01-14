@@ -15,6 +15,7 @@ import java.util.UUID;
 @Setter
 public class PersistVipActiveDTO implements ConvertDTO<VipActive, PersistVipActiveDTO> {
     private UUID userUUID;
+    private String commandGroup;
     private LocalDateTime activationDate;
     private LocalDateTime expiredAt;
     private String vipName;
@@ -22,7 +23,7 @@ public class PersistVipActiveDTO implements ConvertDTO<VipActive, PersistVipActi
 
     @Override
     public VipActive convert() {
-        Vip vip = new Vip(vipName, new ArrayList<>(), commandsRemovelVip, "");
+        Vip vip = new Vip(vipName, commandGroup, new ArrayList<>(), commandsRemovelVip, "");
         return new VipActive(vip, activationDate, expiredAt);
     }
 

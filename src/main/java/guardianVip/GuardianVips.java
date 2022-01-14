@@ -92,9 +92,11 @@ public class GuardianVips extends JavaPlugin {
         getCommand("listarkeysvip").setExecutor(new ListKeysCommand(this));
         getCommand("ativarvip").setExecutor(new ActiveVipCommand(this));
         getCommand("darvip").setExecutor(new AddVipCommand(this));
+        getCommand("setvip").setExecutor(new SetVipCommand(this));
         getCommand("removervip").setExecutor(new RemoveVipCommand(this));
         getCommand("tempovip").setExecutor(new VipTimeCommand(this));
         getCommand("listvip").setExecutor(new ListVipCommand(this));
+        getCommand("addTempovipglobal").setExecutor(new AddVipTimeCommand(this));
 
 
     }

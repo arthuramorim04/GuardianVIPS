@@ -14,6 +14,7 @@ public class VipActive {
     private Vip vip;
     private LocalDateTime activationDate;
     private LocalDateTime expiredAt;
+    private Boolean isEternal = false;
 
     public VipActive(Vip vip, LocalDateTime activationDate, LocalDateTime expiredAt) {
         this.vip = vip;
@@ -24,6 +25,14 @@ public class VipActive {
     public VipActive(Vip vip) {
         this.vip = vip;
         this.activeId = System.currentTimeMillis();
+    }
+
+    public Boolean getEternal() {
+        return isEternal;
+    }
+
+    public void setEternal(Boolean eternal) {
+        isEternal = eternal;
     }
 
     public Vip getVip() {
@@ -70,7 +79,6 @@ public class VipActive {
         this.expiredAt = this.getExpiredAt().plusMinutes(hours);
         return this.getExpiredAt();
     }
-
     public boolean activeVip(Long qtdDays, Long qtdHours, Long qtdminutes) {
         if (this.vip != null) {
             LocalDateTime activationVip = LocalDateTime.now();
