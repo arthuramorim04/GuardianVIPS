@@ -23,39 +23,34 @@ public class VipTimeCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
-        if (!(commandSender instanceof ConsoleCommandSender)) {
-            UserVip userVip = plugin.getUserService().getUserVip((Player) commandSender);
+        UserVip userVip = plugin.getUserService().getUserVip((Player) commandSender);
 
-            if (args.length == 0) {
-                if (userVip == null || userVip.getVipsActivated() == null || userVip.getVipsActivated().isEmpty()) {
-                    commandSender.sendMessage(plugin.getMessageUtils().getMessage("player_no_have_vips"));
-                    return true;
-                }
-                printVipActiveList(userVip.getVipsActivated(), commandSender);
+        if (args.length == 0) {
+            if (userVip == null || userVip.getVipsActivated() == null || userVip.getVipsActivated().isEmpty()) {
+                commandSender.sendMessage(plugin.getMessageUtils().getMessage("player_no_have_vips"));
                 return true;
             }
-
-        } else {
-            if(args.length == 1){
-                if (commandSender.hasPermission("guardianvips.showvips")  || commandSender.hasPermission("guardianvips.admin")) {
-                    Player playerExact = Bukkit.getPlayerExact(args[0]);
-                    if (playerExact != null) {
-                        UserVip playerUserVip = plugin.getUserService().getUserVip(playerExact);
-                        if (playerUserVip == null || playerUserVip.getVipsActivated() == null || playerUserVip.getVipsActivated().isEmpty()) {
-                            commandSender.sendMessage(plugin.getMessageUtils().getMessage("player_no_have_vips"));
-                            return true;
-                        }
-                        commandSender.sendMessage(plugin.getMessageUtils().replaceColorSimbol("\n&aPlayer: " + playerExact.getName() + "\n"));
-                        printVipActiveList(playerUserVip.getVipsActivated(), commandSender);
-
-                    } else {
-                        commandSender.sendMessage(plugin.getMessageUtils().getMessage("player_not_found"));
+            printVipActiveList(userVip.getVipsActivated(), commandSender);
+            return true;
+        }
+        if (args.length == 1) {
+            if (commandSender.hasPermission("guardianvips.showvips") || commandSender.hasPermission("guardianvips.admin")) {
+                Player playerExact = Bukkit.getPlayerExact(args[0]);
+                if (playerExact != null) {
+                    UserVip playerUserVip = plugin.getUserService().getUserVip(playerExact);
+                    if (playerUserVip == null || playerUserVip.getVipsActivated() == null || playerUserVip.getVipsActivated().isEmpty()) {
+                        commandSender.sendMessage(plugin.getMessageUtils().getMessage("player_no_have_vips"));
                         return true;
                     }
+                    commandSender.sendMessage(plugin.getMessageUtils().replaceColorSimbol("\n&aPlayer: " + playerExact.getName() + "\n"));
+                    printVipActiveList(playerUserVip.getVipsActivated(), commandSender);
+
+                } else {
+                    commandSender.sendMessage(plugin.getMessageUtils().getMessage("player_not_found"));
+                    return true;
                 }
-                return false;
             }
-            commandSender.sendMessage("Command avaliable only players");
+            return false;
         }
         return false;
     }
@@ -68,10 +63,10 @@ public class VipTimeCommand implements CommandExecutor {
             } else {
                 sender.sendMessage(plugin.getMessageUtils().getMessage("viptime_line")
                         .replace("%vip%", vipActive.getVip().getName())
-                        .replace("%days%",String.valueOf(vipActive.getDays()))
+                        .replace("%days%", String.valueOf(vipActive.getDays()))
                         .replace("%hours%", String.valueOf(vipActive.getHours()))
                         .replace("%minutes%", String.valueOf(vipActive.getMinutes())));
             }
-    });
+        });
     }
 }
