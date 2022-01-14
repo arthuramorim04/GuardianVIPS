@@ -26,7 +26,7 @@ Comando suporta adiconar Vip para jogadores offline, comandos que precisa acessa
 ```
 /darvip <Player> <Vip> eterno
 ```
-####Permissão: guardianvips.addvip
+#### Permissão: guardianvips.addvip
 
 ***
 ## Remover Vip a um jogador
@@ -35,7 +35,7 @@ Este comando remove determinado vip de um jogador, o comando tem suporte para se
 ```
 /removervip <Player> <Vip>
 ```
-####Permissão: guardianvips.removevip
+#### Permissão: guardianvips.removevip
 
 ***
 
@@ -46,7 +46,7 @@ Este comando seta determinado vip em um jogador, o comando tem suporte para ser 
 ```
 /setvip <Player> <Vip> <Days> <Hours> <Minutes>
 ```
-####Permissão: guardianvips.setvip
+#### Permissão: guardianvips.setvip
 
 ***
 
@@ -57,7 +57,7 @@ Este comando seta determinado vip em um jogador, o comando tem suporte para ser 
 ```
 /setvip <Player> <Vip> <Days> <Hours> <Minutes>
 ```
-####Permissão: guardianvips.setvip
+#### Permissão: guardianvips.setvip
 
 ***
 
@@ -68,7 +68,7 @@ Este comando gera 2 codigos que deixa possivel qualquer jogador que tenha acesso
 ```
 /gerarkeyvip <Vip> <Days> <Hours> <Minutes> <Quantidade de Usos>
 ```
-####Permissão: guardianvips.key.generate
+#### Permissão: guardianvips.key.generate
 
 ***
 
@@ -80,7 +80,7 @@ Este comando desabiltia uma chave de ativação de vip já existente, a chave n�
 /removerkeyvip <Chave>
 ```
 Obs: A chave pode ser desabilitada pela chave numérica ou a chave alfabética.
-####Permissão: guardianvips.removekeyvip
+#### Permissão: guardianvips.removekeyvip
 ***
 
 ***
@@ -90,7 +90,7 @@ Este comando lista todos os usuarios que possuem alguma vip ativada, e as inform
 ```
 /listvip
 ```
-####Permissão: guardianvips.listvips
+#### Permissão: guardianvips.listvips
 ***
 
 
