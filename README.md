@@ -29,6 +29,20 @@ Comando suporta adiconar Vip para jogadores offline, comandos que precisa acessa
 #### Permissão: guardianvips.addvip
 
 ***
+## Adicionar Tempo Vip
+Comando suporta adiconar Vip para jogadores offline, comandos que precisa acessar o jogador online não irao funcionar.
+###Adicionar tempo para um jogador que ja possui vip
+```
+/addtempovip <Player> <Days> <Hours> <Minutes>
+```
+###Adicionar tempo para para todos os jogadores que possuem vip
+
+```
+/addtempovip * <Vip> <Days> <Hours> <Minutes>
+```
+#### Permissão: guardianvips.addtimevip
+
+***
 ## Remover Vip a um jogador
 Este comando remove determinado vip de um jogador, o comando tem suporte para ser executado com o jogador offline.
 ###Remove vip de um jogador.
@@ -91,6 +105,38 @@ Este comando lista todos os usuarios que possuem alguma vip ativada, e as inform
 /listvip
 ```
 #### Permissão: guardianvips.listvips
+***
+
+***
+## Lista todos os chaves de vips no servidor
+Este comando lista todos as chaves de vips que possuem no servidor ou as chaves de um jogador
+###Listar chaves vip.
+```
+/listarkeysvip
+```
+
+###Listar chaves vip.
+```
+/listarkeysvip <Player>
+```
+#### Permissão: guardianvips.key.list
+Obs: Este comando lista as chaves de um jogador
+***
+
+***
+## Lista todos os chaves de vips no servidor
+Este comando lista todos as chaves de vips que possuem no servidor ou as chaves de um jogador
+###Listar chaves vip.
+```
+/listarkeysvip
+```
+
+###Listar chaves vip.
+```
+/listarkeysvip <Player>
+```
+#### Permissão: guardianvips.key.list
+Obs: Este comando lista as chaves de um jogador
 ***
 
 
