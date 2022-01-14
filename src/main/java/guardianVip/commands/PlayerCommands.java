@@ -20,7 +20,7 @@ public class PlayerCommands implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
         if (args.length == 1) {
-            if (args[0].equals("reload") && sender.hasPermission("guardianvips.reload")) {
+            if (args[0].equals("reload") && (sender.hasPermission("guardianvips.reload") || sender.hasPermission("guardianvips.admin"))) {
                 plugin.getYamlVipConfig().reload();
                 plugin.getMessageConfig().reload();
                 plugin.getKeysVips().reload();

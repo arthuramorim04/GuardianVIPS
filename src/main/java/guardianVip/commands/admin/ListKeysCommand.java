@@ -21,54 +21,45 @@ public class ListKeysCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
-        if (sender.hasPermission("guardianvips.key.list")) {
-            if (args.length != 1) {
-                try{
-                    List<KeyVip> allKeys = plugin.getKeysService().getAllKeys();
-                    allKeys.forEach(keyVip -> {
-                        sender.sendMessage("Key:" +
-                                "\nVip:" + keyVip.getVipName() +
-                                "\nTime" + keyVip.getDays() + "days " + keyVip.getHours() + " hours " + keyVip.getMinutes() + " minutes" +
-                                "\nkey: " + keyVip.getKey() +
-                                "\nkey alpha: " + keyVip.getKeyString() +
-                                "\nremainingUse: " + keyVip.getRemainingUse() +
-                                "\nactive: " + keyVip.isEnable() +
-                                "\nOwner: " + keyVip.getPlayer());
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
+            if (args.length == 0) {
+                List<KeyVip> allKeys = plugin.getKeysService().getAllKeys();
+                if (sender.hasPermission("guardianvips.key.list") || sender.hasPermission("guardianvips.admin")) {
+                    showListKeys(allKeys, plugin, sender);
                     return false;
+                } else {
+                    String name = sender.getName();
+                    showListByName(sender, allKeys, name);
                 }
-                return false;
             }
 
             if (args.length == 1) {
-                try{
+                if (sender.hasPermission("guardianvips.key.list") || sender.hasPermission("guardianvips.admin")) {
                     List<KeyVip> allKeys = plugin.getKeysService().getAllKeys();
-                    List<KeyVip> allKeysByPlayer = allKeys.stream().filter(keyVip -> keyVip.getPlayer().equals(args[0])).collect(Collectors.toList());
-                    allKeysByPlayer.forEach(keyVip -> {
-                        plugin.getMessageUtils().getMessage("line_vip_key")
-                                .replace("%vip%", String.valueOf(keyVip.getVipName()))
-                                .replace("%days%", String.valueOf(keyVip.getDays()))
-                                .replace("%hours%", String.valueOf(keyVip.getHours()))
-                                .replace("%minutes%", String.valueOf(keyVip.getMinutes()))
-                                .replace("%key%", String.valueOf(keyVip.getKey()))
-                                .replace("%key_alpha%", String.valueOf(keyVip.getKeyString()))
-                                .replace("%status%", String.valueOf(keyVip.isEnable()))
-                                .replace("%owner%", String.valueOf(keyVip.getPlayer()));
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return false;
+                    List<KeyVip> allKeysByPlayer = allKeys.stream().filter(keyVip -> keyVip != null && keyVip.getPlayer().equals(args[0])).collect(Collectors.toList());
+                    String name = args[0];
+                    showListByName(sender, allKeysByPlayer, name);
+                } else {
+                    sender.sendMessage(plugin.getMessageUtils().getMessage("no_permission"));
                 }
+                return true;
             }
 
-
             return false;
-
-        }  else {
-            sender.sendMessage(plugin.getMessageUtils().getMessage("no_permission"));
-        }
-        return false;
     }
+
+    private void showListByName(CommandSender sender, List<KeyVip> allKeys, String name) {
+        List<KeyVip> allKeysByPlayer = allKeys.stream().filter(keyVip -> keyVip != null && keyVip.getPlayer().equals(name)).collect(Collectors.toList());
+        showListKeys(allKeysByPlayer, plugin, sender);
+    }
+
+    private void showListKeys(List<KeyVip> allKeys, GuardianVips plugin, CommandSender sender) {
+        allKeys.forEach(keyVip -> {
+            try {
+                KeySendGenerateCommand.sendKeyVipToSenderMessage(sender, keyVip, plugin);
+            } catch (Exception e) {
+
+            }
+        });
+    }
+
 }

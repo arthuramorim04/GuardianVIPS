@@ -37,7 +37,7 @@ public class VipTimeCommand implements CommandExecutor {
 
         } else {
             if(args.length == 1){
-                if (commandSender.hasPermission("guardianvips.showvips")) {
+                if (commandSender.hasPermission("guardianvips.showvips")  || commandSender.hasPermission("guardianvips.admin")) {
                     Player playerExact = Bukkit.getPlayerExact(args[0]);
                     if (playerExact != null) {
                         UserVip playerUserVip = plugin.getUserService().getUserVip(playerExact);

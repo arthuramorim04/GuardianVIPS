@@ -1,9 +1,10 @@
 name: GuardianVIPS
-version: 1.0
+version: 1.1
 main: guardianVip.GuardianVips
 
 commands:
   guardianvip:
+    description:
     aliases: "gvips"
   gerarkeyvip:
   enviarkeyvip:
@@ -21,4 +22,4 @@ commands:
       - "viptime"
   listvip:
   removeviptime:
-  addTempovipglobal:
+  addtempovip:

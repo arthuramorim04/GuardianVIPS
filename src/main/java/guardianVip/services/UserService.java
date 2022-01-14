@@ -69,6 +69,10 @@ public class UserService {
         }
     }
 
+    public void removeVipToDatabase(String name) {
+        userVipRepository.removeUserToDB(name);
+    }
+
     public void removeUserVipOnMap(String name) {
         userVipRepository.removeUserVipOnMap(name);
     }

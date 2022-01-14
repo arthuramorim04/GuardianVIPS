@@ -22,7 +22,7 @@ public class SetVipCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (sender.hasPermission("guardianvips.addvip") || sender.hasPermission("guardianvips.admin")) {
+        if (sender.hasPermission("guardianvips.setvip") || sender.hasPermission("guardianvips.admin")) {
 
             if(args.length == 3) {
                 String time = args[2];
@@ -33,7 +33,7 @@ public class SetVipCommand implements CommandExecutor {
             }
 
             if (args.length != 5) {
-                sender.sendMessage(plugin.getMessageUtils().replaceColorSimbol("&cCommand error, use: /addvip <Player> <VIP> <Days> <Hours> <Minutes>"));
+                sendDefaultCommandExample(sender);
                 return true;
             } else {
                 return processAddRequest(sender, args, ActiveVipType.SET, false);
@@ -86,8 +86,7 @@ public class SetVipCommand implements CommandExecutor {
             return true;
         } catch (Exception e) {
             sender.sendMessage(plugin.getMessageUtils().getMessage("error_add_vip"));
-            sender.sendMessage(plugin.getMessageUtils().replaceColorSimbol("&cCommand error, use: /addvip <Player> <VIP> <Days> <Hours> <Minutes>"));
-            e.printStackTrace();
+            sendDefaultCommandExample(sender);
             return false;
         }
     }
@@ -99,5 +98,9 @@ public class SetVipCommand implements CommandExecutor {
             return null;
         }
         return vip;
+    }
+
+    private void sendDefaultCommandExample(CommandSender sender) {
+        sender.sendMessage(plugin.getMessageUtils().replaceColorSimbol("&cCommand error, use: /setvip <Player> <VIP> <Days> <Hours> <Minutes> "));
     }
 }

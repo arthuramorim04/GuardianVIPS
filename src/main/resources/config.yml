@@ -1,20 +1,19 @@
-messages:
-  vipExpired: "seu vip %vip% expirou, acesso nossa loja e compre mais dias."
-  vipRemoved: "seu vip %vip% foi removido por um staff"
-
-
 permissions:
-  - 'guardianvips.addvip'
-  - 'guardianvips.addtimevip'
+  - 'guardianvips.admin.help'
   - 'guardianvips.key.generate'
+  - 'guardianvips.removekeyvip'
   - 'guardianvips.key.list'
+  - 'guardianvips.addvip'
+  - 'guardianvips.setvip'
   - 'guardianvips.removevip'
-  - 'guardianvips.removevip'
-  - 'guardianvips.removevip'
-  - 'guardianvips.reload'
   - 'guardianvips.showvips'
+  - 'guardianvips.listvips'
+  - 'guardianvips.addtimevip'
+  - 'guardianvips.admin'
 
-defaultWorld: "world"
+## In Hours
+intervalNotifiVipEnding: 24
+minDyasToNotify: 1
 storage:
   type: "SQLite"
   user: 'root'

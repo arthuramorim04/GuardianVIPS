@@ -121,6 +121,20 @@ public class UserVipRepository {
         }
     }
 
+    public void removeUserToDB(String name) {
+        SQL sql = plugin.getDatabaseManager().getSql();
+        try {
+            PreparedStatement ps;
+            ps = sql.prepareStatement("delete from guardianvips " +
+                    "where name = '" + name + "';");
+
+            ps.execute();
+            ps.close();
+        } catch (SQLException e) {
+            Bukkit.getConsoleSender().sendMessage("Error on save UserVip, contact the developer");
+        }
+    }
+
     public UserVip create(UserVip userVip) {
         JsonElement vipsActivated = gson.toJsonTree(userVip.getVipsActivated());
         try {

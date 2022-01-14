@@ -16,9 +16,9 @@ public class KeyGenerateCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
-        if (sender.hasPermission("guardianvips.key.generate")) {
+        if (sender.hasPermission("guardianvips.key.generate")  || sender.hasPermission("guardianvips.admin")) {
             if (args.length != 5) {
-                sender.sendMessage("Use /keygenerate <Vip> <Days> <NumUsage>");
+                sendDefaultCommandExample(sender);
                 return false;
             }
             try {
@@ -42,7 +42,7 @@ public class KeyGenerateCommand implements CommandExecutor {
                     sender.sendMessage(plugin.getMessageUtils().getMessage("vip_not_found"));
                 }
             } catch (Exception e) {
-                sender.sendMessage("Use /keygenerate <Vip> <Days> <NumUsage>");
+                sendDefaultCommandExample(sender);
                 return false;
             }
 
@@ -52,5 +52,9 @@ public class KeyGenerateCommand implements CommandExecutor {
             sender.sendMessage(plugin.getMessageUtils().getMessage("no_permission"));
         }
         return false;
+    }
+
+    private void sendDefaultCommandExample(CommandSender sender) {
+        sender.sendMessage(plugin.getMessageUtils().replaceColorSimbol("&cCommand error, use: Use /keygenerate <Vip> <Days> <Hours> <Minutes> <NumUsage>"));
     }
 }

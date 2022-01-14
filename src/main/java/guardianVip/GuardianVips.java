@@ -11,6 +11,7 @@ import guardianVip.services.UserService;
 import guardianVip.services.VipActiveService;
 import guardianVip.services.VipService;
 import guardianVip.sql.DatabaseManager;
+import guardianVip.tasks.NotifyExpiredVips;
 import guardianVip.tasks.RemoveExpiredVips;
 import guardianVip.utils.MessageUtils;
 import guardianVip.utils.YamlConfig;
@@ -34,6 +35,7 @@ public class GuardianVips extends JavaPlugin {
     private MessageUtils messageUtils;
 
     private RemoveExpiredVips removeExpiredVips;
+    private NotifyExpiredVips notifyExpiredVips;
 
     @Override
     public void onEnable() {
@@ -96,7 +98,7 @@ public class GuardianVips extends JavaPlugin {
         getCommand("removervip").setExecutor(new RemoveVipCommand(this));
         getCommand("tempovip").setExecutor(new VipTimeCommand(this));
         getCommand("listvip").setExecutor(new ListVipCommand(this));
-        getCommand("addTempovipglobal").setExecutor(new AddVipTimeCommand(this));
+        getCommand("addtempovip").setExecutor(new AddVipTimeCommand(this));
 
 
     }
@@ -118,6 +120,9 @@ public class GuardianVips extends JavaPlugin {
     private void initTasks() {
         removeExpiredVips = new RemoveExpiredVips(this);
         removeExpiredVips.runTaskTimerAsynchronously(this, 0L, 20*600L);
+
+        notifyExpiredVips = new NotifyExpiredVips(this);
+        notifyExpiredVips.runTaskTimerAsynchronously(this, 9L, 20* yamlConfig.getConfigFile().getLong("intervalNotifiVipEnding"));
     }
 
     private void openConnection() {

@@ -69,15 +69,23 @@ public class KeysService {
     }
 
 
-    public boolean deleteKey(String key) {
+    public boolean deleteKey(String key) throws IllegalAccessException, IOException {
         try {
-            ConfigurationSection section = plugin.getKeysVips().getConfigFile().getConfigurationSection(key);
-            section.set("isEnable", false);
-            plugin.getKeysVips().getConfigFile().save(plugin.getKeysVips().getConfig());
+            disableKey(key);
+            return true;
+        } catch (NullPointerException e) {
+            Long convert = KeysUtils.convert(key);
+            disableKey(String.valueOf(convert));
             return true;
         } catch (Exception e) {
             return false;
         }
+    }
+
+    private void disableKey(String key) throws IOException {
+        ConfigurationSection section = plugin.getKeysVips().getConfigFile().getConfigurationSection(key);
+        section.set("isEnable", false);
+        plugin.getKeysVips().getConfigFile().save(plugin.getKeysVips().getConfig());
     }
 
     public KeyVip getKeyVip(String key) {

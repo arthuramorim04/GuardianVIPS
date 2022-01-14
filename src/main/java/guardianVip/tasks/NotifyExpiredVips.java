@@ -1,20 +1,18 @@
 package guardianVip.tasks;
 
 import guardianVip.GuardianVips;
-import guardianVip.entity.UserVip;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Map;
 
-public class RemoveExpiredVips extends BukkitRunnable {
+public class NotifyExpiredVips extends BukkitRunnable {
 
     private GuardianVips plugin;
 
-    public RemoveExpiredVips(GuardianVips plugin) {
+    public NotifyExpiredVips(GuardianVips plugin) {
         this.plugin = plugin;
     }
 
@@ -25,11 +23,10 @@ public class RemoveExpiredVips extends BukkitRunnable {
 
     private void removeExpiredTask() {
         try {
-            plugin.getVipActiveService().removeExpiredVipsIfN();
+            plugin.getVipActiveService().notifyVipsOnline();
         } catch (Exception e) {
 
         }
-
     }
 
     @Override

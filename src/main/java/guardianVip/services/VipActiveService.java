@@ -101,10 +101,6 @@ public class VipActiveService {
         userVip.getVipsActivated().forEach(vipActive -> {
             if (vipActive.getExpiredAt().isBefore(LocalDateTime.now()) && !vipActive.getEternal()) {
                 vipsToRemove.add(vipActive);
-            } else {
-                if (ChronoUnit.HOURS.between(LocalDateTime.now(), vipActive.getExpiredAt()) < 24) {
-                    player.sendMessage(plugin.getMessageUtils().getMessage("vip_time_ending"));
-                }
             }
         });
 
@@ -135,6 +131,10 @@ public class VipActiveService {
             userVip.getVipsActivated().remove(index);
             executeRemoveCommands(vipToRemove.getVip(), player);
         });
+
+        if (userVip.getVipsActivated().size() == 0) {
+            plugin.getUserService().removeVipToDatabase(userVip.getName());
+        }
     }
 
 
@@ -170,6 +170,21 @@ public class VipActiveService {
             if (userVip.getVipsActivated().size() > 0 && playerExact != null) {
                 List<VipActive> vipsToRemove = getVipsToRemove(userVip);
                 vipsToRemove.forEach(vipExpired -> removeVipExpired(userVip, playerExact));
+            }
+            plugin.getUserService().saveUserVip(userVip.getName());
+        });
+    }
+
+    public void notifyVipsOnline() {
+        plugin.getUserService().getUserVipMap().values().forEach(userVip -> {
+            Player playerExact = Bukkit.getPlayerExact(userVip.getName());
+            if (userVip.getVipsActivated().size() > 0 && playerExact != null) {
+                userVip.getVipsActivated().forEach(vipActive -> {
+                    Player player = Bukkit.getPlayerExact(userVip.getName());
+                    if (ChronoUnit.HOURS.between(LocalDateTime.now(), vipActive.getExpiredAt()) < plugin.getYamlConfig().getConfigFile().getInt("minDyasToNotify")) {
+                        player.sendMessage(plugin.getMessageUtils().getMessage("vip_time_ending"));
+                    }
+                });
             }
             plugin.getUserService().saveUserVip(userVip.getName());
         });

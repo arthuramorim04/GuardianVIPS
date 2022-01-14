@@ -7,6 +7,7 @@ import guardianVip.entity.Vip;
 import guardianVip.entity.VipActive;
 import guardianVip.utils.ActiveVipType;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -28,7 +29,7 @@ public class AddVipTimeCommand implements CommandExecutor {
 
         if (sender.hasPermission("guardianvips.addtimevip") || sender.hasPermission("guardianvips.admin")) {
             if (args.length != 5) {
-                sender.sendMessage(plugin.getMessageUtils().replaceColorSimbol("&cCommand error, use: /addvip <Player or *> <VIP> <Days> <Hours> <Minutes>"));
+                sendDefaultCommandExample(sender);
                 return true;
             }
 
@@ -41,15 +42,26 @@ public class AddVipTimeCommand implements CommandExecutor {
             if (!args[0].equals("*")) {
                 try {
                     Player player = Bukkit.getPlayerExact(args[0]);
+                    ActiveVipDTO activeVipDTO = null;
                     if (player == null) {
-                        sender.sendMessage(plugin.getMessageUtils().getMessage("player_not_found"));
-                        return true;
+                        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[0]);
+                        if (offlinePlayer == null) {
+                            sender.sendMessage(plugin.getMessageUtils().getMessage("player_not_found"));
+                            return true;
+                        } else {
+                            activeVipDTO = new ActiveVipDTO(vip, offlinePlayer.getName(), offlinePlayer.getUniqueId(), Long.valueOf(args[2]), Long.valueOf(args[3]), Long.valueOf(args[4]), ActiveVipType.PLUS);
+                            activeVipDTO.setEterna(false);
+                        }
+
+                    } else {
+                        activeVipDTO = new ActiveVipDTO(vip, player, Long.valueOf(args[2]), Long.valueOf(args[3]), Long.valueOf(args[4]), ActiveVipType.PLUS);
+                        activeVipDTO.setEterna(false);
                     }
-                    ActiveVipDTO activeVipDTO = new ActiveVipDTO(vip, player, Long.valueOf(args[2]), Long.valueOf(args[3]), Long.valueOf(args[4]), ActiveVipType.PLUS);
                     plugin.getVipActiveService().activeVip(activeVipDTO);
                     return true;
                 } catch (Exception e) {
                     sender.sendMessage(plugin.getMessageUtils().getMessage("error_add_vip"));
+                    sendDefaultCommandExample(sender);
                     return false;
                 }
             } else {
@@ -58,7 +70,7 @@ public class AddVipTimeCommand implements CommandExecutor {
                     return true;
                 } catch (Exception e) {
                     sender.sendMessage(plugin.getMessageUtils().getMessage("error_add_vip"));
-                    sender.sendMessage(plugin.getMessageUtils().replaceColorSimbol("&cCommand error, use: /addvip <Player or *> <VIP> <Days> <Hours> <Minutes>"));
+                    sendDefaultCommandExample(sender);
                     return false;
                 }
             }
@@ -68,5 +80,9 @@ public class AddVipTimeCommand implements CommandExecutor {
         }
 
         return false;
+    }
+
+    private void sendDefaultCommandExample(CommandSender sender) {
+        sender.sendMessage(plugin.getMessageUtils().replaceColorSimbol("&cCommand error, use: /addtempovip <Player or *> <VIP> <Days> <Hours> <Minutes>"));
     }
 }
