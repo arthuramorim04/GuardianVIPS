@@ -25,6 +25,7 @@ public class VipActive {
     public VipActive(Vip vip) {
         this.vip = vip;
         this.activeId = System.currentTimeMillis();
+        this.isEternal = false;
     }
 
     public Boolean getEternal() {

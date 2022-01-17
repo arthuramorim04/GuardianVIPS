@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -44,6 +45,7 @@ public class VipTimeCommand implements CommandExecutor {
                         commandSender.sendMessage(plugin.getMessageUtils().getMessage("player_no_have_vips"));
                         return true;
                     }
+                    plugin.getVipActiveService().removeVipExpired(playerUserVip, commandSender.getName());
                     commandSender.sendMessage(plugin.getMessageUtils().replaceColorSimbol("\n&aPlayer: " + playerExact.getName() + "\n"));
                     printVipActiveList(playerUserVip.getVipsActivated(), commandSender);
 
@@ -75,11 +77,13 @@ public class VipTimeCommand implements CommandExecutor {
                 sender.sendMessage(plugin.getMessageUtils().getMessage("viptime_eternal_line")
                         .replace("%vip%", vipActive.getVip().getName()));
             } else {
-                sender.sendMessage(plugin.getMessageUtils().getMessage("viptime_line")
-                        .replace("%vip%", vipActive.getVip().getName())
-                        .replace("%days%", String.valueOf(vipActive.getDays()))
-                        .replace("%hours%", String.valueOf(vipActive.getHours()))
-                        .replace("%minutes%", String.valueOf(vipActive.getMinutes())));
+                if(vipActive.getExpiredAt().isAfter(LocalDateTime.now())) {
+                    sender.sendMessage(plugin.getMessageUtils().getMessage("viptime_line")
+                            .replace("%vip%", vipActive.getVip().getName())
+                            .replace("%days%", String.valueOf(vipActive.getDays()))
+                            .replace("%hours%", String.valueOf(vipActive.getHours()))
+                            .replace("%minutes%", String.valueOf(vipActive.getMinutes())));
+                }
             }
         });
     }

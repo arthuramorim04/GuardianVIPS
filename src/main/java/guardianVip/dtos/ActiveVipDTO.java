@@ -16,7 +16,7 @@ public class ActiveVipDTO {
     private Long hours;
     private Long minutes;
     private ActiveVipType activeVipType;
-    private Boolean isEterna;
+    private Boolean isEterna = false;
 
     public ActiveVipDTO(Vip vip, Player player, Long days, Long hours, Long minutes, ActiveVipType activeVipType) {
         this.vip = vip;

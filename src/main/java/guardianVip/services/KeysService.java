@@ -33,7 +33,7 @@ public class KeysService {
     public void activeKey(KeyVip keyVip, Player player) {
         if (keyVip != null && keyVip.isEnable() && keyVip.getRemainingUse() > 0) {
             Vip vip = plugin.getVipService().getVipByName(keyVip.getVipName());
-            ActiveVipDTO activeVipDTO = new ActiveVipDTO(vip, player, keyVip.getDays(), keyVip.getHours(), keyVip.getMinutes(), ActiveVipType.ADD);
+            ActiveVipDTO activeVipDTO = new ActiveVipDTO(vip, player.getName(), player.getUniqueId(), keyVip.getDays(), keyVip.getHours(), keyVip.getMinutes(), ActiveVipType.ADD);
             plugin.getVipActiveService().activeVip(activeVipDTO);
             keyVip.setRemainingUse(keyVip.getRemainingUse() - 1);
             ConfigurationSection section = plugin.getKeysVips().getConfigFile().getConfigurationSection(String.valueOf(keyVip.getKey()));

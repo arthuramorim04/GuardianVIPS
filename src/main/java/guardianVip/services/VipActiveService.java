@@ -150,10 +150,6 @@ public class VipActiveService {
             userVip.getVipsActivated().remove(index);
             executeRemoveCommands(vipToRemove.getVip(), player);
         });
-
-        if (userVip.getVipsActivated().size() == 0) {
-            plugin.getUserService().removeVipToDatabase(userVip.getName());
-        }
         return true;
     }
 

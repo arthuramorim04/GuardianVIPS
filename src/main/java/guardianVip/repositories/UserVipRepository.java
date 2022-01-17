@@ -172,8 +172,15 @@ public class UserVipRepository {
         if (userVips.containsKey(player)) {
             return userVips.get(player);
         } else {
-            OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(player);
-            return selectById(String.valueOf(offlinePlayer.getUniqueId()));
+            Player playerExact = Bukkit.getPlayerExact(player);
+            if (playerExact == null || !playerExact.isOnline()) {
+                OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(player);
+                return selectById(String.valueOf(offlinePlayer.getUniqueId()));
+            } else {
+                UserVip userVip = plugin.getUserService().create(playerExact.getName(), playerExact.getUniqueId());
+                return userVip;
+            }
+
         }
     }
 
