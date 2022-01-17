@@ -19,22 +19,22 @@ public class RemoveKeyCommand implements CommandExecutor {
 
         if (commandSender.hasPermission("guardianvips.removekeyvip") || commandSender.hasPermission("guardianvips.admin")){
             if (args.length == 1) {
-                boolean isRemoved = false;
+
                 try {
+                    boolean isRemoved = false;
                     isRemoved = plugin.getKeysService().deleteKey(args[0]);
-                } catch (IllegalAccessException e) {
-                    commandSender.sendMessage(plugin.getMessageUtils().getMessage("key_not_found"));
-                    return true;
+                    if (isRemoved) {
+                        commandSender.sendMessage(plugin.getMessageUtils().getMessage("removed_key"));
+                        return true;
+                    } else {
+                        commandSender.sendMessage(plugin.getMessageUtils().getMessage("key_not_found"));
+                        return true;
+                    }
                 } catch (IOException e) {
-                    commandSender.sendMessage(plugin.getMessageUtils().getMessage("&cHave a problem on key.yml"));
+                    commandSender.sendMessage(plugin.getMessageUtils().replaceColorSimbol("&cHave a problem on key.yml"));
                     return true;
-                }
-                if (isRemoved) {
-                    commandSender.sendMessage(plugin.getMessageUtils().getMessage("removed_key"));
-                    return true;
-                } else {
+                } catch (Exception e) {
                     commandSender.sendMessage(plugin.getMessageUtils().getMessage("key_not_found"));
-                    return true;
                 }
             }
         }  else {

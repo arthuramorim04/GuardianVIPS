@@ -34,26 +34,35 @@ public class RemoveVipCommand implements CommandExecutor {
 
             Player player = Bukkit.getPlayerExact(args[0]);
             if (player == null) {
-                if (plugin.getVipActiveService().removeVipOfflinePlayer(vip, args[0])) {
+                boolean isRemoved = plugin.getVipActiveService().removeVipOfflinePlayer(vip, args[0]);
+                if (isRemoved) {
                     plugin.getUserService().saveUserVip(args[0]);
+                    sender.sendMessage(plugin.getMessageUtils().getMessage("vip_removed"));
+                    return true;
                 } else {
-                    sender.sendMessage(plugin.getMessageUtils().getMessage("player_not_found"));
+                    sender.sendMessage(plugin.getMessageUtils().getMessage("player_no_have_vip")
+                            .replace("%player%", args[0])
+                            .replace("%vip%", vip.getName()));
                     return true;
                 }
             } else {
-                plugin.getVipActiveService().removeVip(vip, player);
-                plugin.getUserService().saveUserVip(player);
+                boolean isRemoved = plugin.getVipActiveService().removeVip(vip, player);
+                if (isRemoved) {
+                    plugin.getUserService().saveUserVip(player);
+                    sender.sendMessage(plugin.getMessageUtils().getMessage("vip_removed"));
+                    return true;
+                } else {
+                    sender.sendMessage(plugin.getMessageUtils().getMessage("player_no_have_vip")
+                            .replace("%player%", args[0])
+                            .replace("%vip%", vip.getName()));
+                    return true;
+                }
             }
-
-            if (player != null){
-                player.sendMessage(plugin.getMessageUtils().getMessage("player_vip_removed").replace("%vip%", vip.getName()));
-            }
-            sender.sendMessage(plugin.getMessageUtils().getMessage("vip_removed"));
 
         } else {
-            sender.sendMessage(plugin.getMessageUtils().getMessage("player_not_found"));
+            sender.sendMessage(plugin.getMessageUtils().getMessage("no_permission"));
+            return false;
         }
-        return false;
     }
 
     private void sendDefaultCommandExample(CommandSender sender) {

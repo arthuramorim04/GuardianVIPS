@@ -109,23 +109,42 @@ public class VipActiveService {
         plugin.getUserService().saveUserVip(userVip.getName());
     }
 
+    public void removeVipExpired(UserVip userVip, String player) {
+        List<VipActive> vipsToRemove = new ArrayList<>();
+        userVip.getVipsActivated().forEach(vipActive -> {
+            if (vipActive.getExpiredAt().isBefore(LocalDateTime.now()) && !vipActive.getEternal()) {
+                vipsToRemove.add(vipActive);
+            }
+        });
+
+        vipsToRemove.forEach(vipActive -> removeVip(vipActive.getVip(), player));
+
+        plugin.getUserService().saveUserVip(userVip.getName());
+    }
+
 
     public boolean removeVipOfflinePlayer(Vip vip, String player) {
         UserVip userVip = plugin.getUserService().getUserVip(player);
         if (userVip == null) return false;
-        removeVip(vip, player, userVip);
-        return true;
+        return removeVip(vip, player, userVip);
     }
 
-    public void removeVip(Vip vip, Player player) {
+    public boolean removeVip(Vip vip, String player) {
         UserVip userVip = plugin.getUserService().getUserVip(player);
-        if (userVip == null) return;
-        removeVip(vip, player.getName(), userVip);
+        if (userVip == null) return false;
+        return removeVip(vip, player, userVip);
     }
 
-    private void removeVip(Vip vip, String player, UserVip userVip) {
+    public boolean removeVip(Vip vip, Player player) {
+        UserVip userVip = plugin.getUserService().getUserVip(player);
+        if (userVip == null) return false;
+        return removeVip(vip, player.getName(), userVip);
+    }
+
+    private boolean removeVip(Vip vip, String player, UserVip userVip) {
         List<VipActive> vipsToRemove = userVip.getVipsActivated().stream()
                 .filter(vipActive -> vipActive.getVip().getName().equals(vip.getName())).collect(Collectors.toList());
+        if (vipsToRemove.size() == 0) return false;
         vipsToRemove.forEach(vipToRemove -> {
             int index = userVip.getVipsActivated().indexOf(vipToRemove);
             userVip.getVipsActivated().remove(index);
@@ -135,6 +154,7 @@ public class VipActiveService {
         if (userVip.getVipsActivated().size() == 0) {
             plugin.getUserService().removeVipToDatabase(userVip.getName());
         }
+        return true;
     }
 
 

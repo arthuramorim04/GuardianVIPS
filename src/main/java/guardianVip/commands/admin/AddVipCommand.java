@@ -83,6 +83,7 @@ public class AddVipCommand implements CommandExecutor {
                 }
             }
             plugin.getVipActiveService().activeVip(activeVipDTO);
+            sender.sendMessage(plugin.getMessageUtils().getMessage("add_vip_on_player").replace("%player%", args[0]));
             return true;
         } catch (Exception e) {
             sender.sendMessage(plugin.getMessageUtils().getMessage("error_add_vip"));

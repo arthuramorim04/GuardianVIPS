@@ -83,6 +83,6 @@ public class AddVipTimeCommand implements CommandExecutor {
     }
 
     private void sendDefaultCommandExample(CommandSender sender) {
-        sender.sendMessage(plugin.getMessageUtils().replaceColorSimbol("&cCommand error, use: /addtempovip <Player or *> <VIP> <Days> <Hours> <Minutes>"));
+        sender.sendMessage(plugin.getMessageUtils().replaceColorSimbol("&cCommand error, use: /addtempovip <Player or *> <Days> <Hours> <Minutes>"));
     }
 }

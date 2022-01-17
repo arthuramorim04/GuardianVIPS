@@ -82,6 +82,6 @@ public class KeySendGenerateCommand implements CommandExecutor {
     }
 
     private void sendDefaultCommandExample(CommandSender sender) {
-        sender.sendMessage(plugin.getMessageUtils().replaceColorSimbol("&cCommand error, use: /keygenerate <VIP> <Days> <Hours> <Minutes> <Player>"));
+        sender.sendMessage(plugin.getMessageUtils().replaceColorSimbol("&cCommand error, use: /gerarkeyvip <VIP> <Days> <Hours> <Minutes> <Usage> <Player>"));
     }
 }

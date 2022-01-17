@@ -4,6 +4,7 @@ import guardianVip.GuardianVips;
 import guardianVip.entity.UserVip;
 import guardianVip.entity.VipActive;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -23,13 +24,14 @@ public class VipTimeCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
-        UserVip userVip = plugin.getUserService().getUserVip((Player) commandSender);
 
-        if (args.length == 0) {
+        if (args.length == 0 && commandSender instanceof Player) {
+            UserVip userVip = plugin.getUserService().getUserVip(commandSender.getName());
             if (userVip == null || userVip.getVipsActivated() == null || userVip.getVipsActivated().isEmpty()) {
                 commandSender.sendMessage(plugin.getMessageUtils().getMessage("player_no_have_vips"));
                 return true;
             }
+            plugin.getVipActiveService().removeVipExpired(userVip, commandSender.getName());
             printVipActiveList(userVip.getVipsActivated(), commandSender);
             return true;
         }
@@ -46,8 +48,20 @@ public class VipTimeCommand implements CommandExecutor {
                     printVipActiveList(playerUserVip.getVipsActivated(), commandSender);
 
                 } else {
-                    commandSender.sendMessage(plugin.getMessageUtils().getMessage("player_not_found"));
-                    return true;
+                    OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[0]);
+                    if (offlinePlayer.getName() != null && offlinePlayer.getUniqueId() != null) {
+                        UserVip playerUserVip = plugin.getUserService().getUserVip(offlinePlayer.getName());
+                        if (playerUserVip == null || playerUserVip.getVipsActivated() == null || playerUserVip.getVipsActivated().isEmpty()) {
+                            commandSender.sendMessage(plugin.getMessageUtils().getMessage("player_no_have_vips"));
+                            return true;
+                        }
+                        commandSender.sendMessage(plugin.getMessageUtils().replaceColorSimbol("\n&aPlayer: " + offlinePlayer.getName() + "\n"));
+                        printVipActiveList(playerUserVip.getVipsActivated(), commandSender);
+                        plugin.getUserService().removeUserVipOnMap(offlinePlayer.getName());
+                    } else {
+                        commandSender.sendMessage(plugin.getMessageUtils().getMessage("player_not_found"));
+                        return true;
+                    }
                 }
             }
             return false;
