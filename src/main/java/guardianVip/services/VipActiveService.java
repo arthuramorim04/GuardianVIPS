@@ -46,7 +46,7 @@ public class VipActiveService {
             String activateMessage = vip.getBroadcastActivation().replace("%player%", activeVipDTO.getPlayerName()).replace("%vip%", vip.getName());
             sendActiveVipMessage(activateMessage);
         }
-
+        plugin.getUserService().saveUserVip(userVip.getName());
         plugin.getUserService().saveUserVip(activeVipDTO.getPlayerName());
         return vipActive;
     }

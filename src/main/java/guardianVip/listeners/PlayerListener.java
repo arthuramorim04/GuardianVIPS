@@ -22,13 +22,7 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void playerJoin(PlayerJoinEvent e) {
-
-        if (e.getPlayer().hasPlayedBefore()) {
-            plugin.getUserService().loadUserVip(e.getPlayer());
-        } else {
-            plugin.getUserService().create(e.getPlayer().getName(), e.getPlayer().getUniqueId());
-        }
-
+        plugin.getUserService().loadUserVip(e.getPlayer());
     }
 
     @EventHandler

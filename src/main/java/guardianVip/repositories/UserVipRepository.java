@@ -145,6 +145,7 @@ public class UserVipRepository {
 
             ps.execute();
             ps.close();
+            this.userVips.put(userVip.getName(), userVip);
         return userVip;
         } catch (SQLException e) {
             Bukkit.getConsoleSender().sendMessage("Error on save UserVip, contact the developer");
