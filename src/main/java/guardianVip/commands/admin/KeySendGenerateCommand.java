@@ -77,11 +77,12 @@ public class KeySendGenerateCommand implements CommandExecutor {
                 .replace("%key%", String.valueOf(keyVip.getKey()))
                 .replace("%key_alpha%", String.valueOf(keyVip.getKeyString()))
                 .replace("%status%", String.valueOf(keyVip.isEnable()))
-                .replace("%owner%", String.valueOf(keyVip.getPlayer()));
+                .replace("%owner%", String.valueOf(keyVip.getPlayer()))
+                .replace("%remaining_use%", String.valueOf(keyVip.getRemainingUse()));
         sender.sendMessage(line_vip_key);
     }
 
     private void sendDefaultCommandExample(CommandSender sender) {
-        sender.sendMessage(plugin.getMessageUtils().replaceColorSimbol("&cCommand error, use: /gerarkeyvip <VIP> <Days> <Hours> <Minutes> <Usage> <Player>"));
+        sender.sendMessage(plugin.getMessageUtils().replaceColorSimbol("&cCommand error, use: /enviarkeyvip <VIP> <Days> <Hours> <Minutes> <Usage> <Player>"));
     }
 }

@@ -1,5 +1,5 @@
 name: GuardianVIPS
-version: 1.1
+version: 1.4
 main: guardianVip.GuardianVips
 
 commands:

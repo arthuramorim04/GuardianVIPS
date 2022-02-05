@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ListVipCommand implements CommandExecutor {
@@ -25,18 +26,22 @@ public class ListVipCommand implements CommandExecutor {
 
         if (commandSender.hasPermission("guardianvips.listvips") || commandSender.hasPermission("guardianvips.admin")){
             Map<String, UserVip> vipList = plugin.getUserService().loadAllUserVip();
+            Set<String> vips = vipList.keySet();
+            vips.forEach(vipKey -> plugin.getVipActiveService().removeVipExpired(vipList.get(vipKey), vipKey));
             vipList.values().stream().filter(userVip -> userVip.getVipsActivated().size() > 0).forEach(userVip -> {
-                commandSender.sendMessage(plugin.getMessageUtils().getMessage("vip_player_title_line").replace("%player%", userVip.getName()));
-                userVip.getVipsActivated().forEach(vipActive -> {
-                    if(vipActive.getExpiredAt().isAfter(LocalDateTime.now())) {
-                        commandSender.sendMessage(plugin.getMessageUtils().getMessage("vip_player_info_line")
-                                .replace("%vip%", String.valueOf(vipActive.getVip().getName()))
-                                .replace("%days%", String.valueOf(vipActive.getDays()))
-                                .replace("%hours%", String.valueOf(vipActive.getHours()))
-                                .replace("%minutes%", String.valueOf(vipActive.getMinutes()))
-                                .replace("%data_activation%", vipActive.getActivationDate().toString()));
-                    }
-                });
+                if (userVip.getVipsActivated().size() > 0) {
+                    commandSender.sendMessage(plugin.getMessageUtils().getMessage("vip_player_title_line").replace("%player%", userVip.getName()));
+                    userVip.getVipsActivated().forEach(vipActive -> {
+                        if(vipActive.getExpiredAt().isAfter(LocalDateTime.now())) {
+                            commandSender.sendMessage(plugin.getMessageUtils().getMessage("vip_player_info_line")
+                                    .replace("%vip%", String.valueOf(vipActive.getVip().getName()))
+                                    .replace("%days%", String.valueOf(vipActive.getDays()))
+                                    .replace("%hours%", String.valueOf(vipActive.getHours()))
+                                    .replace("%minutes%", String.valueOf(vipActive.getMinutes()))
+                                    .replace("%data_activation%", vipActive.getActivationDate().toString()));
+                        }
+                    });
+                }
             });
         return true;
         }  else {
