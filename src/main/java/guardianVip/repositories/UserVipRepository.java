@@ -64,7 +64,7 @@ public class UserVipRepository {
         return userVips;
     }
 
-    public void loadAll() {
+    public  void loadAll() {
 
         PreparedStatement ps;
         SQL sql = plugin.getDatabaseManager().getSql();
@@ -157,6 +157,8 @@ public class UserVipRepository {
 
     public void saveUserVip(String user) {
         UserVip userVip = userVips.get(user);
+        this.userVips.remove(user);
+        this.userVips.put(user, userVip);
         if (userVip != null) {
             saveUserVip(userVip);
         }

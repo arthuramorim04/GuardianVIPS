@@ -119,7 +119,7 @@ public class GuardianVips extends JavaPlugin {
 
     private void initTasks() {
         removeExpiredVips = new RemoveExpiredVips(this);
-        removeExpiredVips.runTaskTimerAsynchronously(this, 0L, 20*600L);
+        removeExpiredVips.runTaskTimerAsynchronously(this, 9L, 20*600L);
 
         notifyExpiredVips = new NotifyExpiredVips(this);
         notifyExpiredVips.runTaskTimerAsynchronously(this, 9L, 20* yamlConfig.getConfigFile().getLong("intervalNotifiVipEnding"));

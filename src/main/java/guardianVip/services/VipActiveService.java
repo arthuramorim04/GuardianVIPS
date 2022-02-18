@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class VipActiveService {
@@ -181,18 +182,23 @@ public class VipActiveService {
     }
 
     public void removeExpiredVipsIfN() {
-        plugin.getUserService().getUserVipMap().values().forEach(userVip -> {
+        Set<String> userVips = plugin.getUserService().getUserVipMap().keySet();
+        userVips.forEach(userVipName -> {
+            UserVip userVip = plugin.getUserService().getUserVip(userVipName);
             Player playerExact = Bukkit.getPlayerExact(userVip.getName());
             if (userVip.getVipsActivated().size() > 0 && playerExact != null) {
                 List<VipActive> vipsToRemove = getVipsToRemove(userVip);
-                vipsToRemove.forEach(vipExpired -> removeVipExpired(userVip, playerExact));
+                if (vipsToRemove.size() > 0) {
+                    vipsToRemove.forEach(vipActive -> removeVip(vipActive.getVip(), playerExact));
+                }
             }
-            plugin.getUserService().saveUserVip(userVip.getName());
         });
     }
 
     public void notifyVipsOnline() {
-        plugin.getUserService().getUserVipMap().values().forEach(userVip -> {
+        Set<String> userVips = plugin.getUserService().getUserVipMap().keySet();
+        userVips.forEach(userVipName -> {
+            UserVip userVip = plugin.getUserService().getUserVip(userVipName);
             Player playerExact = Bukkit.getPlayerExact(userVip.getName());
             if (userVip.getVipsActivated().size() > 0 && playerExact != null) {
                 userVip.getVipsActivated().forEach(vipActive -> {
@@ -202,7 +208,6 @@ public class VipActiveService {
                     }
                 });
             }
-            plugin.getUserService().saveUserVip(userVip.getName());
         });
     }
 
@@ -212,7 +217,7 @@ public class VipActiveService {
                     vipActive -> vipActive.getExpiredAt().isBefore(LocalDateTime.now()) && !vipActive.getEternal())
                     .collect(Collectors.toList());
         }
-        return null;
+        return new ArrayList<>();
     }
 
 }

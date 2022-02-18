@@ -25,7 +25,7 @@ public class NotifyExpiredVips extends BukkitRunnable {
         try {
             plugin.getVipActiveService().notifyVipsOnline();
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 

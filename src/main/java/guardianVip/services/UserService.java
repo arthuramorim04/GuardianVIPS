@@ -69,6 +69,10 @@ public class UserService {
         }
     }
 
+    public void saveAllUserVips() {
+        getUserVipMap().values().forEach(userVip -> saveUserVip(userVip.getName()));
+    }
+
     public void removeVipToDatabase(String name) {
         userVipRepository.removeUserToDB(name);
     }

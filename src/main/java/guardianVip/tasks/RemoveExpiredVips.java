@@ -27,7 +27,7 @@ public class RemoveExpiredVips extends BukkitRunnable {
         try {
             plugin.getVipActiveService().removeExpiredVipsIfN();
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
 
     }

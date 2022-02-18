@@ -26,13 +26,11 @@ public class ListVipCommand implements CommandExecutor {
 
         if (commandSender.hasPermission("guardianvips.listvips") || commandSender.hasPermission("guardianvips.admin")){
             Map<String, UserVip> vipList = plugin.getUserService().loadAllUserVip();
-            Set<String> vips = vipList.keySet();
-            vips.forEach(vipKey -> plugin.getVipActiveService().removeVipExpired(vipList.get(vipKey), vipKey));
             vipList.values().stream().filter(userVip -> userVip.getVipsActivated().size() > 0).forEach(userVip -> {
                 if (userVip.getVipsActivated().size() > 0) {
-                    commandSender.sendMessage(plugin.getMessageUtils().getMessage("vip_player_title_line").replace("%player%", userVip.getName()));
                     userVip.getVipsActivated().forEach(vipActive -> {
                         if(vipActive.getExpiredAt().isAfter(LocalDateTime.now())) {
+                            commandSender.sendMessage(plugin.getMessageUtils().getMessage("vip_player_title_line").replace("%player%", userVip.getName()));
                             commandSender.sendMessage(plugin.getMessageUtils().getMessage("vip_player_info_line")
                                     .replace("%vip%", String.valueOf(vipActive.getVip().getName()))
                                     .replace("%days%", String.valueOf(vipActive.getDays()))
